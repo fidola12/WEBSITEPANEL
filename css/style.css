@@ -1,18 +1,706 @@
+```css
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --background: #080808;
+    --sidebar: #0d0d0d;
+    --card: #111111;
+    --card-hover: #151515;
+    --border: #242424;
+    --text: #ffffff;
+    --muted: #777777;
+    --red: #ff1010;
+    --red-dark: #b80000;
 }
 
 body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--text);
     min-height: 100vh;
-    background: #080808;
-    color: #ddd;
-    font-family: "Segoe UI", Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+
+/* =========================
+   APP
+========================= */
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    width: 230px;
+    min-height: 100vh;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 25px 15px;
+}
+
+.logo {
+    width: 45px;
+    height: 45px;
 
     display: flex;
     align-items: center;
     justify-content: center;
+
+    margin: 0 auto 40px;
+
+    border: 1px solid var(--red);
+    color: var(--red);
+
+    font-size: 20px;
+    font-weight: bold;
+
+    box-shadow: 0 0 20px rgba(255, 16, 16, 0.12);
 }
 
-/* resto do CSS... */
+.navigation {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.nav-item {
+    position: relative;
+
+    width: 100%;
+    height: 48px;
+
+    border: none;
+    background: transparent;
+
+    color: #777;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 0 15px;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition: 0.2s ease;
+}
+
+.nav-item span {
+    width: 20px;
+    font-size: 17px;
+    text-align: center;
+}
+
+.nav-item label {
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.nav-item:hover {
+    background: #151515;
+    color: #ddd;
+}
+
+.nav-item.active {
+    color: white;
+    background: #181818;
+}
+
+.nav-item.active::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 10px;
+    bottom: 10px;
+
+    width: 3px;
+
+    background: var(--red);
+
+    box-shadow: 0 0 10px rgba(255, 16, 16, 0.7);
+}
+
+.nav-item.active span {
+    color: var(--red);
+}
+
+
+/* =========================
+   SIDEBAR BOTTOM
+========================= */
+
+.sidebar-bottom {
+    margin-top: auto;
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 15px;
+
+    color: #555;
+
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #00c853;
+
+    box-shadow: 0 0 8px rgba(0, 200, 83, 0.8);
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+    flex: 1;
+    min-width: 0;
+
+    padding: 35px 45px;
+}
+
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar {
+    min-height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid var(--border);
+
+    padding-bottom: 25px;
+    margin-bottom: 35px;
+}
+
+.topbar h1 {
+    font-size: 24px;
+    font-weight: 600;
+
+    margin-bottom: 5px;
+}
+
+.topbar p {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.profile-info strong {
+    font-size: 13px;
+}
+
+.profile-info span {
+    color: var(--red);
+    font-size: 10px;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #161616;
+    border: 1px solid var(--border);
+
+    color: var(--red);
+
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   PAGES
+========================= */
+
+.page {
+    display: none;
+}
+
+.page.active-page {
+    display: block;
+}
+
+
+/* =========================
+   SECTION TITLE
+========================= */
+
+.section-title {
+    margin-bottom: 22px;
+}
+
+.section-title h2 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.section-title p {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+
+/* =========================
+   GRID
+========================= */
+
+.grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    padding: 22px;
+
+    transition: 0.2s ease;
+}
+
+.card:hover {
+    border-color: #333;
+    background: var(--card-hover);
+}
+
+.card-header {
+    margin-bottom: 20px;
+}
+
+.card-header h3 {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.card-header p {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+
+/* =========================
+   OPTIONS
+========================= */
+
+.option {
+    min-height: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-top: 1px solid #1d1d1d;
+
+    padding: 13px 0;
+}
+
+.option:first-of-type {
+    border-top: none;
+}
+
+.option strong {
+    display: block;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    margin-bottom: 5px;
+}
+
+.option small {
+    color: #5f5f5f;
+    font-size: 10px;
+}
+
+
+/* =========================
+   CHECKBOX
+========================= */
+
+.checkbox {
+    width: 21px;
+    height: 21px;
+
+    border: 1px solid #3a3a3a;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.15s ease;
+
+    user-select: none;
+}
+
+.checkbox:hover {
+    border-color: #666;
+}
+
+.checkbox.active {
+    background: var(--red);
+    border-color: var(--red);
+
+    color: white;
+
+    box-shadow: 0 0 10px rgba(255, 16, 16, 0.25);
+}
+
+
+/* =========================
+   SELECT
+========================= */
+
+.select-box {
+    position: relative;
+
+    width: 100%;
+    height: 44px;
+
+    border: 1px solid var(--border);
+    background: #0b0b0b;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 14px;
+
+    color: #ccc;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+.select-box:hover {
+    border-color: #3b3b3b;
+}
+
+.dropdown {
+    position: absolute;
+
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+
+    display: none;
+
+    background: #111;
+
+    border: 1px solid var(--border);
+
+    z-index: 100;
+}
+
+.select-box.open .dropdown {
+    display: block;
+}
+
+.dropdown div {
+    padding: 12px 14px;
+
+    font-size: 11px;
+    color: #aaa;
+
+    transition: 0.15s ease;
+}
+
+.dropdown div:hover {
+    background: #191919;
+    color: white;
+}
+
+
+/* =========================
+   SLIDER
+========================= */
+
+.slider-container {
+    margin-top: 25px;
+}
+
+.slider-header {
+    display: flex;
+    justify-content: space-between;
+
+    color: #aaa;
+
+    font-size: 11px;
+
+    margin-bottom: 12px;
+}
+
+#fov-value {
+    color: var(--red);
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 4px;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    background: #292929;
+
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+
+    width: 14px;
+    height: 14px;
+
+    background: var(--red);
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    box-shadow: 0 0 10px rgba(255, 16, 16, 0.4);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+
+    background: var(--red);
+
+    border: none;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   KEYBINDS
+========================= */
+
+.keybind {
+    min-height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-top: 1px solid #1d1d1d;
+}
+
+.keybind:first-of-type {
+    border-top: none;
+}
+
+.keybind span {
+    font-size: 12px;
+    color: #ccc;
+}
+
+.keybind button {
+    min-width: 70px;
+    height: 30px;
+
+    background: #0b0b0b;
+
+    border: 1px solid #333;
+
+    color: #aaa;
+
+    font-size: 10px;
+
+    cursor: pointer;
+}
+
+.keybind button:hover {
+    color: white;
+    border-color: var(--red);
+}
+
+
+/* =========================
+   INFORMATION
+========================= */
+
+.info-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.info-card {
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.info-label {
+    color: #666;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-card strong {
+    font-size: 15px;
+}
+
+.online-text {
+    color: #00c853;
+}
+
+.about-card {
+    margin-top: 20px;
+}
+
+.about-text {
+    color: #777;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 75px;
+        padding: 20px 10px;
+    }
+
+    .nav-item {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .nav-item label {
+        display: none;
+    }
+
+    .nav-item.active::before {
+        left: -10px;
+    }
+
+    .sidebar-bottom span {
+        display: none;
+    }
+
+    .main {
+        padding: 25px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .main {
+        padding: 20px 15px;
+    }
+
+    .topbar {
+        align-items: flex-start;
+    }
+
+    .profile-info {
+        display: none;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+```
