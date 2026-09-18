@@ -185,6 +185,20 @@ if (fovSlider && fovValue) {
 
 }
 
+function toggleMenu() {
+    document.querySelector(".app").classList.toggle("menu-hidden");
+}
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Insert") {
+        event.preventDefault();
+        toggleMenu();
+    }
+
+    if (event.key === "Escape") {
+        document.querySelector(".app").classList.add("menu-hidden");
+    }
+});
 
 /* =========================
    KEYBINDS
