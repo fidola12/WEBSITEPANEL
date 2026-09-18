@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Internal Panel</title>
 
 <style>
@@ -18,38 +19,52 @@ body {
     background: #080808;
     color: #ddd;
     font-family: "Segoe UI", Arial, sans-serif;
+
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* APP */
+
 .app {
     width: 760px;
     height: 455px;
+
     display: flex;
+
     background: #101010;
     border: 1px solid #202020;
     border-radius: 8px;
+
     overflow: hidden;
+
     box-shadow: 0 20px 60px rgba(0,0,0,.55);
 }
+
 
 /* SIDEBAR */
 
 .sidebar {
     width: 155px;
+
     background: #0d0d0d;
     border-right: 1px solid #1d1d1d;
+
     padding: 18px 10px;
+
     display: flex;
     flex-direction: column;
 }
 
 .logo {
     padding: 5px 10px 22px;
+
+    color: #fff;
+
     font-size: 14px;
     font-weight: 800;
-    color: #fff;
+
     letter-spacing: .7px;
 }
 
@@ -65,17 +80,26 @@ body {
 
 .nav button {
     position: relative;
+
     height: 38px;
+
     border: 0;
     outline: none;
+
     background: transparent;
     color: #777;
+
     text-align: left;
+
     padding: 0 12px;
+
     border-radius: 4px;
+
     cursor: pointer;
+
     font-size: 11px;
     font-weight: 600;
+
     transition: .2s;
 }
 
@@ -91,26 +115,36 @@ body {
 
 .nav button.active::before {
     content: "";
+
     position: absolute;
+
     left: 0;
     top: 9px;
+
     width: 2px;
     height: 20px;
+
     background: #ff1010;
+
     border-radius: 2px;
+
     box-shadow: 0 0 8px #ff1010;
 }
+
 
 /* CONTENT */
 
 .content {
     flex: 1;
+
     padding: 24px;
-    overflow: hidden;
+
+    overflow-y: auto;
 }
 
 .page {
     display: none;
+
     animation: fade .2s ease;
 }
 
@@ -123,11 +157,15 @@ body {
         opacity: 0;
         transform: translateY(4px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
+
+
+/* HEADER */
 
 .header {
     margin-bottom: 20px;
@@ -135,45 +173,62 @@ body {
 
 .header h1 {
     color: #eee;
+
     font-size: 17px;
     font-weight: 700;
 }
 
 .header p {
     margin-top: 5px;
+
     color: #555;
+
     font-size: 10px;
 }
 
-/* PANELS */
+
+/* GRID */
 
 .grid {
     display: grid;
+
     grid-template-columns: 1fr 1fr;
+
     gap: 12px;
 }
 
+
+/* PANEL */
+
 .panel {
     background: #171717;
+
     border: 1px solid #222;
+
     border-radius: 6px;
+
     padding: 16px;
 }
 
 .panel-title {
     color: #eee;
+
     font-size: 11px;
     font-weight: 700;
+
     margin-bottom: 13px;
 }
 
-/* SETTINGS */
+
+/* SETTING */
 
 .setting {
     height: 39px;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     border-bottom: 1px solid #202020;
 }
 
@@ -183,35 +238,69 @@ body {
 
 .label {
     color: #aaa;
+
     font-size: 11px;
 }
 
+
+/* CHECKBOX */
+
 .checkbox {
-    width: 16px;
-    height: 16px;
+    width: 17px;
+    height: 17px;
+
     border-radius: 3px;
+
     background: #0d0d0d;
+
     border: 1px solid #292929;
+
     cursor: pointer;
+
+    position: relative;
+
+    transition:
+        background .15s ease,
+        border-color .15s ease,
+        box-shadow .15s ease,
+        transform .1s ease;
+}
+
+.checkbox:hover {
+    border-color: #555;
+
+    transform: scale(1.04);
 }
 
 .checkbox.active {
     background: #ff1010;
+
     border-color: #ff1010;
-    position: relative;
+
+    box-shadow: 0 0 8px rgba(255,16,16,.3);
 }
 
+
+/* X */
+
 .checkbox.active::after {
-    content: "";
+    content: "×";
+
     position: absolute;
-    width: 4px;
-    height: 8px;
-    border-right: 2px solid white;
-    border-bottom: 2px solid white;
-    transform: rotate(45deg);
-    left: 5px;
-    top: 2px;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -54%);
+
+    color: white;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    line-height: 1;
 }
+
 
 /* DROPDOWN */
 
@@ -222,27 +311,39 @@ body {
 .drop-button {
     width: 125px;
     height: 28px;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     padding: 0 9px;
+
     background: #0d0d0d;
+
     color: #bbb;
+
     border: 1px solid #292929;
+
     border-radius: 4px;
+
     font-size: 10px;
+
     cursor: pointer;
+
     transition: .2s;
 }
 
 .drop-button:hover {
     border-color: #444;
+
     color: #fff;
 }
 
 .arrow {
     color: #666;
+
     font-size: 9px;
+
     transition: .2s;
 }
 
@@ -252,15 +353,24 @@ body {
 
 .drop-menu {
     position: absolute;
-    z-index: 20;
+
+    z-index: 50;
+
     top: calc(100% + 5px);
     left: 0;
+
     width: 125px;
+
     background: #111;
+
     border: 1px solid #292929;
+
     border-radius: 4px;
+
     padding: 4px;
+
     display: none;
+
     box-shadow: 0 10px 25px rgba(0,0,0,.55);
 }
 
@@ -270,14 +380,21 @@ body {
 
 .drop-option {
     padding: 8px;
+
     color: #888;
+
     font-size: 10px;
+
     border-radius: 3px;
+
     cursor: pointer;
+
+    transition: .15s;
 }
 
 .drop-option:hover {
     background: #1d1d1d;
+
     color: #fff;
 }
 
@@ -285,21 +402,28 @@ body {
     color: #ff3030;
 }
 
+
 /* INFORMATION */
 
 .info-card {
     background: #171717;
+
     border: 1px solid #222;
+
     border-radius: 6px;
+
     overflow: hidden;
 }
 
 .info-row {
     min-height: 52px;
+
     padding: 0 17px;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     border-bottom: 1px solid #222;
 }
 
@@ -309,11 +433,13 @@ body {
 
 .info-label {
     color: #777;
+
     font-size: 10px;
 }
 
 .info-value {
     color: #eee;
+
     font-size: 11px;
     font-weight: 600;
 }
@@ -324,28 +450,41 @@ body {
 
 .status {
     display: flex;
+
     align-items: center;
+
     gap: 7px;
 }
 
 .status-dot {
     width: 6px;
     height: 6px;
+
     background: #ff1010;
+
     border-radius: 50%;
+
     box-shadow: 0 0 7px #ff1010;
 }
 
 .note {
     margin-top: 12px;
+
     padding: 13px;
+
     background: #121212;
+
     border: 1px solid #202020;
+
     border-radius: 5px;
+
     color: #555;
+
     font-size: 10px;
+
     line-height: 1.5;
 }
+
 
 /* SLIDER */
 
@@ -355,49 +494,66 @@ body {
 
 .slider-value {
     display: flex;
+
     justify-content: space-between;
+
     margin-bottom: 10px;
 }
 
 .slider-value span:first-child {
     color: #555;
+
     font-size: 10px;
 }
 
 .slider-value span:last-child {
     color: #bbb;
+
     font-size: 10px;
 }
 
 .slider {
     height: 4px;
+
     background: #292929;
+
     border-radius: 5px;
+
     position: relative;
 }
 
 .slider-fill {
     width: 65%;
     height: 100%;
+
     background: #ff1010;
+
     border-radius: 5px;
 }
 
 .knob {
     position: absolute;
+
     left: 65%;
     top: 50%;
+
     transform: translate(-50%, -50%);
+
     width: 10px;
     height: 10px;
+
     background: #ff1010;
+
     border: 2px solid #171717;
+
     border-radius: 50%;
 }
+
 
 /* RESPONSIVE */
 
 @media(max-width: 700px) {
+
     .app {
         width: 96vw;
         height: 90vh;
@@ -418,9 +574,11 @@ body {
 </style>
 </head>
 
+
 <body>
 
 <div class="app">
+
 
     <!-- SIDEBAR -->
 
@@ -432,7 +590,8 @@ body {
 
         <nav class="nav">
 
-            <button class="active" onclick="showPage('functions', this)">
+            <button class="active"
+                    onclick="showPage('functions', this)">
                 Functions
             </button>
 
@@ -461,7 +620,7 @@ body {
     </aside>
 
 
-    <!-- MAIN CONTENT -->
+    <!-- CONTENT -->
 
     <main class="content">
 
@@ -471,11 +630,18 @@ body {
         <section id="functions" class="page active">
 
             <div class="header">
+
                 <h1>Functions</h1>
-                <p>Internal function configuration</p>
+
+                <p>
+                    Internal function configuration
+                </p>
+
             </div>
 
+
             <div class="grid">
+
 
                 <div class="panel">
 
@@ -483,27 +649,52 @@ body {
                         Combat Functions
                     </div>
 
+
                     <div class="setting">
-                        <span class="label">No Spread</span>
+
+                        <span class="label">
+                            No Spread
+                        </span>
+
                         <div class="checkbox active"></div>
+
                     </div>
 
-                    <div class="setting">
-                        <span class="label">No Reload</span>
-                        <div class="checkbox"></div>
-                    </div>
 
                     <div class="setting">
-                        <span class="label">Aim Lock</span>
+
+                        <span class="label">
+                            No Reload
+                        </span>
+
                         <div class="checkbox"></div>
+
                     </div>
 
+
                     <div class="setting">
-                        <span class="label">Quick Switch</span>
+
+                        <span class="label">
+                            Aim Lock
+                        </span>
+
                         <div class="checkbox"></div>
+
+                    </div>
+
+
+                    <div class="setting">
+
+                        <span class="label">
+                            Quick Switch
+                        </span>
+
+                        <div class="checkbox"></div>
+
                     </div>
 
                 </div>
+
 
                 <div class="panel">
 
@@ -511,19 +702,37 @@ body {
                         General
                     </div>
 
+
                     <div class="setting">
-                        <span class="label">Enabled</span>
+
+                        <span class="label">
+                            Enabled
+                        </span>
+
                         <div class="checkbox active"></div>
+
                     </div>
 
-                    <div class="setting">
-                        <span class="label">Show Status</span>
-                        <div class="checkbox"></div>
-                    </div>
 
                     <div class="setting">
-                        <span class="label">Auto Config</span>
+
+                        <span class="label">
+                            Show Status
+                        </span>
+
                         <div class="checkbox"></div>
+
+                    </div>
+
+
+                    <div class="setting">
+
+                        <span class="label">
+                            Auto Config
+                        </span>
+
+                        <div class="checkbox"></div>
+
                     </div>
 
                 </div>
@@ -538,11 +747,18 @@ body {
         <section id="aimbot" class="page">
 
             <div class="header">
+
                 <h1>Aimbot</h1>
-                <p>Aimbot configuration</p>
+
+                <p>
+                    Aimbot configuration
+                </p>
+
             </div>
 
+
             <div class="grid">
+
 
                 <div class="panel">
 
@@ -550,14 +766,29 @@ body {
                         Target
                     </div>
 
+
+                    <!-- AIMBOT TYPE -->
+
                     <div class="setting">
-                        <span class="label">Aimbot Type</span>
+
+                        <span class="label">
+                            Aimbot Type
+                        </span>
+
 
                         <div class="dropdown">
-                            <button class="drop-button" onclick="toggleDropdown(this)">
+
+                            <button class="drop-button"
+                                    onclick="toggleDropdown(this)">
+
                                 <span>None</span>
-                                <span class="arrow">▼</span>
+
+                                <span class="arrow">
+                                    ▼
+                                </span>
+
                             </button>
+
 
                             <div class="drop-menu">
 
@@ -577,20 +808,34 @@ body {
                                 </div>
 
                             </div>
+
                         </div>
+
                     </div>
 
 
+                    <!-- TARGET -->
+
                     <div class="setting">
-                        <span class="label">Aimbot Target</span>
+
+                        <span class="label">
+                            Aimbot Target
+                        </span>
+
 
                         <div class="dropdown">
 
                             <button class="drop-button"
                                     onclick="toggleDropdown(this)">
+
                                 <span>Crosshair</span>
-                                <span class="arrow">▼</span>
+
+                                <span class="arrow">
+                                    ▼
+                                </span>
+
                             </button>
+
 
                             <div class="drop-menu">
 
@@ -612,19 +857,32 @@ body {
                             </div>
 
                         </div>
+
                     </div>
 
 
+                    <!-- BONE -->
+
                     <div class="setting">
-                        <span class="label">Aimbot Bone</span>
+
+                        <span class="label">
+                            Aimbot Bone
+                        </span>
+
 
                         <div class="dropdown">
 
                             <button class="drop-button"
                                     onclick="toggleDropdown(this)">
+
                                 <span>Chest</span>
-                                <span class="arrow">▼</span>
+
+                                <span class="arrow">
+                                    ▼
+                                </span>
+
                             </button>
+
 
                             <div class="drop-menu">
 
@@ -646,10 +904,13 @@ body {
                             </div>
 
                         </div>
+
                     </div>
 
                 </div>
 
+
+                <!-- OPTIONS -->
 
                 <div class="panel">
 
@@ -657,19 +918,37 @@ body {
                         Options
                     </div>
 
-                    <div class="setting">
-                        <span class="label">Full Enemy</span>
-                        <div class="checkbox"></div>
-                    </div>
 
                     <div class="setting">
-                        <span class="label">Aimbot Locked</span>
+
+                        <span class="label">
+                            Full Enemy
+                        </span>
+
+                        <div class="checkbox"></div>
+
+                    </div>
+
+
+                    <div class="setting">
+
+                        <span class="label">
+                            Aimbot Locked
+                        </span>
+
                         <div class="checkbox active"></div>
+
                     </div>
 
+
                     <div class="setting">
-                        <span class="label">Show Fov</span>
+
+                        <span class="label">
+                            Show Fov
+                        </span>
+
                         <div class="checkbox"></div>
+
                     </div>
 
                 </div>
@@ -684,9 +963,15 @@ body {
         <section id="visuals" class="page">
 
             <div class="header">
+
                 <h1>Visuals</h1>
-                <p>Visual configuration</p>
+
+                <p>
+                    Visual configuration
+                </p>
+
             </div>
+
 
             <div class="grid">
 
@@ -696,27 +981,52 @@ body {
                         Visual Options
                     </div>
 
+
                     <div class="setting">
-                        <span class="label">ESP</span>
+
+                        <span class="label">
+                            ESP
+                        </span>
+
                         <div class="checkbox"></div>
+
                     </div>
 
+
                     <div class="setting">
-                        <span class="label">Fov Circle</span>
+
+                        <span class="label">
+                            Fov Circle
+                        </span>
+
                         <div class="checkbox active"></div>
+
                     </div>
 
+
                     <div class="setting">
-                        <span class="label">Crosshair</span>
+
+                        <span class="label">
+                            Crosshair
+                        </span>
+
                         <div class="checkbox active"></div>
+
                     </div>
 
+
                     <div class="setting">
-                        <span class="label">Watermark</span>
+
+                        <span class="label">
+                            Watermark
+                        </span>
+
                         <div class="checkbox"></div>
+
                     </div>
 
                 </div>
+
 
                 <div class="panel">
 
@@ -724,16 +1034,28 @@ body {
                         Fov
                     </div>
 
+
                     <div class="slider-row">
 
                         <div class="slider-value">
-                            <span>Field of View</span>
-                            <span>3,000</span>
+
+                            <span>
+                                Field of View
+                            </span>
+
+                            <span>
+                                3,000
+                            </span>
+
                         </div>
 
+
                         <div class="slider">
+
                             <div class="slider-fill"></div>
+
                             <div class="knob"></div>
+
                         </div>
 
                     </div>
@@ -750,9 +1072,15 @@ body {
         <section id="keybinds" class="page">
 
             <div class="header">
+
                 <h1>Keybinds</h1>
-                <p>Configure your keybinds</p>
+
+                <p>
+                    Configure your keybinds
+                </p>
+
             </div>
+
 
             <div class="grid">
 
@@ -762,19 +1090,27 @@ body {
                         Camera
                     </div>
 
+
                     <div class="setting">
 
                         <span class="label">
                             Camera Supreme
                         </span>
 
+
                         <div class="dropdown">
 
                             <button class="drop-button"
                                     onclick="toggleDropdown(this)">
+
                                 <span>None</span>
-                                <span class="arrow">▼</span>
+
+                                <span class="arrow">
+                                    ▼
+                                </span>
+
                             </button>
+
 
                             <div class="drop-menu">
 
@@ -811,9 +1147,15 @@ body {
         <section id="settings" class="page">
 
             <div class="header">
+
                 <h1>Settings</h1>
-                <p>General panel configuration</p>
+
+                <p>
+                    General panel configuration
+                </p>
+
             </div>
+
 
             <div class="grid">
 
@@ -823,19 +1165,37 @@ body {
                         Interface
                     </div>
 
-                    <div class="setting">
-                        <span class="label">Animations</span>
-                        <div class="checkbox active"></div>
-                    </div>
 
                     <div class="setting">
-                        <span class="label">Compact Mode</span>
+
+                        <span class="label">
+                            Animations
+                        </span>
+
+                        <div class="checkbox active"></div>
+
+                    </div>
+
+
+                    <div class="setting">
+
+                        <span class="label">
+                            Compact Mode
+                        </span>
+
                         <div class="checkbox"></div>
+
                     </div>
 
+
                     <div class="setting">
-                        <span class="label">Notifications</span>
+
+                        <span class="label">
+                            Notifications
+                        </span>
+
                         <div class="checkbox active"></div>
+
                     </div>
 
                 </div>
@@ -850,46 +1210,96 @@ body {
         <section id="information" class="page">
 
             <div class="header">
+
                 <h1>Information</h1>
-                <p>Account and panel information</p>
+
+                <p>
+                    Account and panel information
+                </p>
+
             </div>
+
 
             <div class="info-card">
 
-                <div class="info-row">
-                    <span class="info-label">Username</span>
-                    <span class="info-value user">gordao</span>
-                </div>
 
                 <div class="info-row">
-                    <span class="info-label">Key Time</span>
-                    <span class="info-value">99 Days</span>
+
+                    <span class="info-label">
+                        Username
+                    </span>
+
+                    <span class="info-value user">
+                        gordao
+                    </span>
+
                 </div>
 
-                <div class="info-row">
-                    <span class="info-label">License</span>
-                    <span class="info-value">99 Days</span>
-                </div>
 
                 <div class="info-row">
-                    <span class="info-label">Status</span>
+
+                    <span class="info-label">
+                        Key Time
+                    </span>
+
+                    <span class="info-value">
+                        99 Days
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        License
+                    </span>
+
+                    <span class="info-value">
+                        99 Days
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Status
+                    </span>
+
 
                     <span class="info-value status">
+
                         <span class="status-dot"></span>
+
                         Active
+
                     </span>
+
                 </div>
 
+
                 <div class="info-row">
-                    <span class="info-label">Version</span>
-                    <span class="info-value">1.0.0</span>
+
+                    <span class="info-label">
+                        Version
+                    </span>
+
+                    <span class="info-value">
+                        1.0.0
+                    </span>
+
                 </div>
 
             </div>
 
+
             <div class="note">
-                Internal configuration panel — all systems are currently
-                synchronized and operating normally.
+
+                Internal configuration panel — all systems are
+                currently synchronized and operating normally.
+
             </div>
 
         </section>
@@ -901,35 +1311,77 @@ body {
 
 <script>
 
-/* TROCAR DE ABA */
+/* ==========================
+   MUDAR DE ABA
+========================== */
 
 function showPage(pageId, button) {
 
-    document.querySelectorAll(".page").forEach(page => {
-        page.classList.remove("active");
-    });
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+            page.classList.remove("active");
+        });
 
-    document.getElementById(pageId).classList.add("active");
+    document
+        .getElementById(pageId)
+        .classList.add("active");
 
-    document.querySelectorAll(".nav button").forEach(btn => {
-        btn.classList.remove("active");
-    });
+
+    document
+        .querySelectorAll(".nav button")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
 
     button.classList.add("active");
 }
 
 
-/* DROPDOWNS */
+/* ==========================
+   CHECKBOXES
+========================== */
+
+/*
+   QUALQUER checkbox DA INTERFACE
+   PODE SER CLICADO PARA LIGAR/DESLIGAR.
+*/
+
+document
+    .querySelectorAll(".checkbox")
+    .forEach(checkbox => {
+
+        checkbox.addEventListener("click", function() {
+
+            this.classList.toggle("active");
+
+        });
+
+    });
+
+
+/* ==========================
+   DROPDOWNS
+========================== */
 
 function toggleDropdown(button) {
 
-    const dropdown = button.parentElement;
+    const dropdown =
+        button.parentElement;
 
-    document.querySelectorAll(".dropdown").forEach(item => {
-        if (item !== dropdown) {
-            item.classList.remove("open");
-        }
-    });
+
+    document
+        .querySelectorAll(".dropdown")
+        .forEach(item => {
+
+            if (item !== dropdown) {
+
+                item.classList.remove("open");
+
+            }
+
+        });
+
 
     dropdown.classList.toggle("open");
 }
@@ -937,30 +1389,51 @@ function toggleDropdown(button) {
 
 function selectOption(option) {
 
-    const dropdown = option.closest(".dropdown");
-    const button = dropdown.querySelector(".drop-button span:first-child");
+    const dropdown =
+        option.closest(".dropdown");
 
-    button.textContent = option.textContent.trim();
 
-    dropdown.querySelectorAll(".drop-option").forEach(item => {
-        item.classList.remove("selected");
-    });
+    const button =
+        dropdown.querySelector(
+            ".drop-button span:first-child"
+        );
+
+
+    button.textContent =
+        option.textContent.trim();
+
+
+    dropdown
+        .querySelectorAll(".drop-option")
+        .forEach(item => {
+
+            item.classList.remove("selected");
+
+        });
+
 
     option.classList.add("selected");
+
 
     dropdown.classList.remove("open");
 }
 
 
-/* FECHAR DROPDOWN AO CLICAR FORA */
+/* ==========================
+   FECHAR DROPDOWNS
+========================== */
 
 document.addEventListener("click", function(event) {
 
     if (!event.target.closest(".dropdown")) {
 
-        document.querySelectorAll(".dropdown").forEach(dropdown => {
-            dropdown.classList.remove("open");
-        });
+        document
+            .querySelectorAll(".dropdown")
+            .forEach(dropdown => {
+
+                dropdown.classList.remove("open");
+
+            });
 
     }
 
