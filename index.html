@@ -1,1445 +1,509 @@
 ```html
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Gordao Panel</title>
-
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    min-height: 100vh;
-    background: #080808;
-    color: #ddd;
-    font-family: "Segoe UI", Arial, sans-serif;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* APP */
-
-.app {
-    width: 760px;
-    height: 455px;
-
-    display: flex;
-
-    background: #101010;
-    border: 1px solid #202020;
-    border-radius: 8px;
-
-    overflow: hidden;
-
-    box-shadow: 0 20px 60px rgba(0,0,0,.55);
-}
-
-
-/* SIDEBAR */
-
-.sidebar {
-    width: 155px;
-
-    background: #0d0d0d;
-    border-right: 1px solid #1d1d1d;
-
-    padding: 18px 10px;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.logo {
-    padding: 5px 10px 22px;
-
-    color: #fff;
-
-    font-size: 14px;
-    font-weight: 800;
-
-    letter-spacing: .7px;
-}
-
-.logo span {
-    color: #ff1010;
-}
-
-.nav {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.nav button {
-    position: relative;
-
-    height: 38px;
-
-    border: 0;
-    outline: none;
-
-    background: transparent;
-    color: #777;
-
-    text-align: left;
-
-    padding: 0 12px;
-
-    border-radius: 4px;
-
-    cursor: pointer;
-
-    font-size: 11px;
-    font-weight: 600;
-
-    transition: .2s;
-}
-
-.nav button:hover {
-    color: #ddd;
-    background: #151515;
-}
-
-.nav button.active {
-    color: #fff;
-    background: #181818;
-}
-
-.nav button.active::before {
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    top: 9px;
-
-    width: 2px;
-    height: 20px;
-
-    background: #ff1010;
-
-    border-radius: 2px;
-
-    box-shadow: 0 0 8px #ff1010;
-}
-
-
-/* CONTENT */
-
-.content {
-    flex: 1;
-
-    padding: 24px;
-
-    overflow-y: auto;
-}
-
-.page {
-    display: none;
-
-    animation: fade .2s ease;
-}
-
-.page.active {
-    display: block;
-}
-
-@keyframes fade {
-    from {
-        opacity: 0;
-        transform: translateY(4px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-/* HEADER */
-
-.header {
-    margin-bottom: 20px;
-}
-
-.header h1 {
-    color: #eee;
-
-    font-size: 17px;
-    font-weight: 700;
-}
-
-.header p {
-    margin-top: 5px;
-
-    color: #555;
-
-    font-size: 10px;
-}
-
-
-/* GRID */
-
-.grid {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 12px;
-}
-
-
-/* PANEL */
-
-.panel {
-    background: #171717;
-
-    border: 1px solid #222;
-
-    border-radius: 6px;
-
-    padding: 16px;
-}
-
-.panel-title {
-    color: #eee;
-
-    font-size: 11px;
-    font-weight: 700;
-
-    margin-bottom: 13px;
-}
-
-
-/* SETTING */
-
-.setting {
-    height: 39px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    border-bottom: 1px solid #202020;
-}
-
-.setting:last-child {
-    border-bottom: none;
-}
-
-.label {
-    color: #aaa;
-
-    font-size: 11px;
-}
-
-
-/* CHECKBOX */
-
-.checkbox {
-    width: 17px;
-    height: 17px;
-
-    border-radius: 3px;
-
-    background: #0d0d0d;
-
-    border: 1px solid #292929;
-
-    cursor: pointer;
-
-    position: relative;
-
-    transition:
-        background .15s ease,
-        border-color .15s ease,
-        box-shadow .15s ease,
-        transform .1s ease;
-}
-
-.checkbox:hover {
-    border-color: #555;
-
-    transform: scale(1.04);
-}
-
-.checkbox.active {
-    background: #ff1010;
-
-    border-color: #ff1010;
-
-    box-shadow: 0 0 8px rgba(255,16,16,.3);
-}
-
-
-/* X */
-
-.checkbox.active::after {
-    content: "×";
-
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -54%);
-
-    color: white;
-
-    font-size: 15px;
-    font-weight: 800;
-
-    line-height: 1;
-}
-
-
-/* DROPDOWN */
-
-.dropdown {
-    position: relative;
-}
-
-.drop-button {
-    width: 125px;
-    height: 28px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 9px;
-
-    background: #0d0d0d;
-
-    color: #bbb;
-
-    border: 1px solid #292929;
-
-    border-radius: 4px;
-
-    font-size: 10px;
-
-    cursor: pointer;
-
-    transition: .2s;
-}
-
-.drop-button:hover {
-    border-color: #444;
-
-    color: #fff;
-}
-
-.arrow {
-    color: #666;
-
-    font-size: 9px;
-
-    transition: .2s;
-}
-
-.dropdown.open .arrow {
-    transform: rotate(180deg);
-}
-
-.drop-menu {
-    position: absolute;
-
-    z-index: 50;
-
-    top: calc(100% + 5px);
-    left: 0;
-
-    width: 125px;
-
-    background: #111;
-
-    border: 1px solid #292929;
-
-    border-radius: 4px;
-
-    padding: 4px;
-
-    display: none;
-
-    box-shadow: 0 10px 25px rgba(0,0,0,.55);
-}
-
-.dropdown.open .drop-menu {
-    display: block;
-}
-
-.drop-option {
-    padding: 8px;
-
-    color: #888;
-
-    font-size: 10px;
-
-    border-radius: 3px;
-
-    cursor: pointer;
-
-    transition: .15s;
-}
-
-.drop-option:hover {
-    background: #1d1d1d;
-
-    color: #fff;
-}
-
-.drop-option.selected {
-    color: #ff3030;
-}
-
-
-/* INFORMATION */
-
-.info-card {
-    background: #171717;
-
-    border: 1px solid #222;
-
-    border-radius: 6px;
-
-    overflow: hidden;
-}
-
-.info-row {
-    min-height: 52px;
-
-    padding: 0 17px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    border-bottom: 1px solid #222;
-}
-
-.info-row:last-child {
-    border-bottom: none;
-}
-
-.info-label {
-    color: #777;
-
-    font-size: 10px;
-}
-
-.info-value {
-    color: #eee;
-
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.user {
-    color: #ff2020;
-}
-
-.status {
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-}
-
-.status-dot {
-    width: 6px;
-    height: 6px;
-
-    background: #ff1010;
-
-    border-radius: 50%;
-
-    box-shadow: 0 0 7px #ff1010;
-}
-
-.note {
-    margin-top: 12px;
-
-    padding: 13px;
-
-    background: #121212;
-
-    border: 1px solid #202020;
-
-    border-radius: 5px;
-
-    color: #555;
-
-    font-size: 10px;
-
-    line-height: 1.5;
-}
-
-
-/* SLIDER */
-
-.slider-row {
-    margin-top: 16px;
-}
-
-.slider-value {
-    display: flex;
-
-    justify-content: space-between;
-
-    margin-bottom: 10px;
-}
-
-.slider-value span:first-child {
-    color: #555;
-
-    font-size: 10px;
-}
-
-.slider-value span:last-child {
-    color: #bbb;
-
-    font-size: 10px;
-}
-
-.slider {
-    height: 4px;
-
-    background: #292929;
-
-    border-radius: 5px;
-
-    position: relative;
-}
-
-.slider-fill {
-    width: 65%;
-    height: 100%;
-
-    background: #ff1010;
-
-    border-radius: 5px;
-}
-
-.knob {
-    position: absolute;
-
-    left: 65%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: 10px;
-    height: 10px;
-
-    background: #ff1010;
-
-    border: 2px solid #171717;
-
-    border-radius: 50%;
-}
-
-
-/* RESPONSIVE */
-
-@media(max-width: 700px) {
-
-    .app {
-        width: 96vw;
-        height: 90vh;
-    }
-
-    .sidebar {
-        width: 125px;
-    }
-
-    .grid {
-        grid-template-columns: 1fr;
-    }
-
-    .content {
-        overflow-y: auto;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gordao Panel</title>
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 
 <body>
 
-<div class="app">
+    <div class="app">
 
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
 
-    <!-- SIDEBAR -->
-
-    <aside class="sidebar">
-
-        <div class="logo">
-            Gordao<span>.</span>
-        </div>
-
-        <nav class="nav">
-
-            <button class="active"
-                    onclick="showPage('functions', this)">
-                Functions
-            </button>
-
-            <button onclick="showPage('aimbot', this)">
-                Aimbot
-            </button>
-
-            <button onclick="showPage('visuals', this)">
-                Visuals
-            </button>
-
-            <button onclick="showPage('keybinds', this)">
-                Keybinds
-            </button>
-
-            <button onclick="showPage('settings', this)">
-                Settings
-            </button>
-
-            <button onclick="showPage('information', this)">
-                Information
-            </button>
-
-        </nav>
-
-    </aside>
-
-
-    <!-- CONTENT -->
-
-    <main class="content">
-
-
-        <!-- FUNCTIONS -->
-
-        <section id="functions" class="page active">
-
-            <div class="header">
-
-                <h1>Functions</h1>
-
-                <p>
-                    Internal function configuration
-                </p>
-
+            <div class="logo">
+                <span>G</span>
             </div>
 
+            <nav class="navigation">
 
-            <div class="grid">
+                <button class="nav-item active" onclick="showPage('functions', this)">
+                    <span>⚙</span>
+                    <label>Functions</label>
+                </button>
 
+                <button class="nav-item" onclick="showPage('aimbot', this)">
+                    <span>⌖</span>
+                    <label>Aimbot</label>
+                </button>
 
-                <div class="panel">
+                <button class="nav-item" onclick="showPage('visuals', this)">
+                    <span>◉</span>
+                    <label>Visuals</label>
+                </button>
 
-                    <div class="panel-title">
-                        Combat Functions
-                    </div>
+                <button class="nav-item" onclick="showPage('keybinds', this)">
+                    <span>⌨</span>
+                    <label>Keybinds</label>
+                </button>
 
+                <button class="nav-item" onclick="showPage('settings', this)">
+                    <span>⚙</span>
+                    <label>Settings</label>
+                </button>
 
-                    <div class="setting">
+                <button class="nav-item" onclick="showPage('information', this)">
+                    <span>ⓘ</span>
+                    <label>Information</label>
+                </button>
 
-                        <span class="label">
-                            No Spread
-                        </span>
+            </nav>
 
-                        <div class="checkbox active"></div>
+            <div class="sidebar-bottom">
+                <div class="status-dot"></div>
+                <span>ONLINE</span>
+            </div>
 
-                    </div>
-
-
-                    <div class="setting">
-
-                        <span class="label">
-                            No Reload
-                        </span>
-
-                        <div class="checkbox"></div>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Aim Lock
-                        </span>
-
-                        <div class="checkbox"></div>
-
-                    </div>
+        </aside>
 
 
-                    <div class="setting">
+        <!-- MAIN CONTENT -->
+        <main class="main">
 
-                        <span class="label">
-                            Quick Switch
-                        </span>
+            <!-- TOP BAR -->
+            <header class="topbar">
 
-                        <div class="checkbox"></div>
-
-                    </div>
-
+                <div>
+                    <h1 id="page-title">Functions</h1>
+                    <p id="page-description">Configure your functions</p>
                 </div>
 
-
-                <div class="panel">
-
-                    <div class="panel-title">
-                        General
+                <div class="profile">
+                    <div class="profile-info">
+                        <strong>gordao</strong>
+                        <span>99 Days</span>
                     </div>
 
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Enabled
-                        </span>
-
-                        <div class="checkbox active"></div>
-
+                    <div class="avatar">
+                        G
                     </div>
-
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Show Status
-                        </span>
-
-                        <div class="checkbox"></div>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Auto Config
-                        </span>
-
-                        <div class="checkbox"></div>
-
-                    </div>
-
                 </div>
 
-            </div>
-
-        </section>
+            </header>
 
 
-        <!-- AIMBOT -->
+            <!-- FUNCTIONS -->
+            <section id="functions" class="page active-page">
 
-        <section id="aimbot" class="page">
+                <div class="section-title">
+                    <h2>Functions</h2>
+                    <p>General features and options</p>
+                </div>
 
-            <div class="header">
+                <div class="grid">
 
-                <h1>Aimbot</h1>
+                    <div class="card">
 
-                <p>
-                    Aimbot configuration
-                </p>
+                        <div class="card-header">
+                            <div>
+                                <h3>General</h3>
+                                <p>Basic functions</p>
+                            </div>
+                        </div>
 
-            </div>
-
-
-            <div class="grid">
-
-
-                <div class="panel">
-
-                    <div class="panel-title">
-                        Target
-                    </div>
-
-
-                    <!-- AIMBOT TYPE -->
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Aimbot Type
-                        </span>
-
-
-                        <div class="dropdown">
-
-                            <button class="drop-button"
-                                    onclick="toggleDropdown(this)">
-
-                                <span>None</span>
-
-                                <span class="arrow">
-                                    ▼
-                                </span>
-
-                            </button>
-
-
-                            <div class="drop-menu">
-
-                                <div class="drop-option selected"
-                                     onclick="selectOption(this)">
-                                    None
-                                </div>
-
-                                <div class="drop-option"
-                                     onclick="selectOption(this)">
-                                    Crosshair
-                                </div>
-
-                                <div class="drop-option"
-                                     onclick="selectOption(this)">
-                                    Nearest
-                                </div>
-
+                        <div class="option">
+                            <div>
+                                <strong>Enable</strong>
+                                <small>Enable main system</small>
                             </div>
 
+                            <div class="checkbox" onclick="toggleCheckbox(this)"></div>
                         </div>
 
-                    </div>
-
-
-                    <!-- TARGET -->
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Aimbot Target
-                        </span>
-
-
-                        <div class="dropdown">
-
-                            <button class="drop-button"
-                                    onclick="toggleDropdown(this)">
-
-                                <span>Crosshair</span>
-
-                                <span class="arrow">
-                                    ▼
-                                </span>
-
-                            </button>
-
-
-                            <div class="drop-menu">
-
-                                <div class="drop-option selected"
-                                     onclick="selectOption(this)">
-                                    Crosshair
-                                </div>
-
-                                <div class="drop-option"
-                                     onclick="selectOption(this)">
-                                    Head
-                                </div>
-
-                                <div class="drop-option"
-                                     onclick="selectOption(this)">
-                                    Chest
-                                </div>
-
+                        <div class="option">
+                            <div>
+                                <strong>Auto Start</strong>
+                                <small>Start automatically</small>
                             </div>
 
+                            <div class="checkbox" onclick="toggleCheckbox(this)"></div>
                         </div>
 
-                    </div>
-
-
-                    <!-- BONE -->
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Aimbot Bone
-                        </span>
-
-
-                        <div class="dropdown">
-
-                            <button class="drop-button"
-                                    onclick="toggleDropdown(this)">
-
-                                <span>Chest</span>
-
-                                <span class="arrow">
-                                    ▼
-                                </span>
-
-                            </button>
-
-
-                            <div class="drop-menu">
-
-                                <div class="drop-option"
-                                     onclick="selectOption(this)">
-                                    Head
-                                </div>
-
-                                <div class="drop-option selected"
-                                     onclick="selectOption(this)">
-                                    Chest
-                                </div>
-
-                                <div class="drop-option"
-                                     onclick="selectOption(this)">
-                                    Body
-                                </div>
-
+                        <div class="option">
+                            <div>
+                                <strong>Performance Mode</strong>
+                                <small>Improve performance</small>
                             </div>
 
+                            <div class="checkbox active" onclick="toggleCheckbox(this)">×</div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-header">
+                            <div>
+                                <h3>Mode</h3>
+                                <p>Select operating mode</p>
+                            </div>
+                        </div>
+
+                        <div class="select-box" onclick="toggleDropdown(this)">
+                            <span>Default</span>
+                            <span>⌄</span>
+
+                            <div class="dropdown">
+                                <div onclick="selectOption(this)">Default</div>
+                                <div onclick="selectOption(this)">Advanced</div>
+                                <div onclick="selectOption(this)">Performance</div>
+                            </div>
                         </div>
 
                     </div>
 
                 </div>
 
-
-                <!-- OPTIONS -->
-
-                <div class="panel">
-
-                    <div class="panel-title">
-                        Options
-                    </div>
+            </section>
 
 
-                    <div class="setting">
+            <!-- AIMBOT -->
+            <section id="aimbot" class="page">
 
-                        <span class="label">
-                            Full Enemy
-                        </span>
-
-                        <div class="checkbox"></div>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Aimbot Locked
-                        </span>
-
-                        <div class="checkbox active"></div>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Show Fov
-                        </span>
-
-                        <div class="checkbox"></div>
-
-                    </div>
-
+                <div class="section-title">
+                    <h2>Aimbot</h2>
+                    <p>Aimbot configuration</p>
                 </div>
 
-            </div>
+                <div class="grid">
 
-        </section>
+                    <div class="card">
 
-
-        <!-- VISUALS -->
-
-        <section id="visuals" class="page">
-
-            <div class="header">
-
-                <h1>Visuals</h1>
-
-                <p>
-                    Visual configuration
-                </p>
-
-            </div>
-
-
-            <div class="grid">
-
-                <div class="panel">
-
-                    <div class="panel-title">
-                        Visual Options
-                    </div>
-
-
-                    <div class="setting">
-
-                        <span class="label">
-                            ESP
-                        </span>
-
-                        <div class="checkbox"></div>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Fov Circle
-                        </span>
-
-                        <div class="checkbox active"></div>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Crosshair
-                        </span>
-
-                        <div class="checkbox active"></div>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Watermark
-                        </span>
-
-                        <div class="checkbox"></div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="panel">
-
-                    <div class="panel-title">
-                        Fov
-                    </div>
-
-
-                    <div class="slider-row">
-
-                        <div class="slider-value">
-
-                            <span>
-                                Field of View
-                            </span>
-
-                            <span>
-                                3,000
-                            </span>
-
+                        <div class="card-header">
+                            <div>
+                                <h3>Aimbot</h3>
+                                <p>Main configuration</p>
+                            </div>
                         </div>
 
-
-                        <div class="slider">
-
-                            <div class="slider-fill"></div>
-
-                            <div class="knob"></div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- KEYBINDS -->
-
-        <section id="keybinds" class="page">
-
-            <div class="header">
-
-                <h1>Keybinds</h1>
-
-                <p>
-                    Configure your keybinds
-                </p>
-
-            </div>
-
-
-            <div class="grid">
-
-                <div class="panel">
-
-                    <div class="panel-title">
-                        Camera
-                    </div>
-
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Camera Supreme
-                        </span>
-
-
-                        <div class="dropdown">
-
-                            <button class="drop-button"
-                                    onclick="toggleDropdown(this)">
-
-                                <span>None</span>
-
-                                <span class="arrow">
-                                    ▼
-                                </span>
-
-                            </button>
-
-
-                            <div class="drop-menu">
-
-                                <div class="drop-option selected"
-                                     onclick="selectOption(this)">
-                                    None
-                                </div>
-
-                                <div class="drop-option"
-                                     onclick="selectOption(this)">
-                                    F1
-                                </div>
-
-                                <div class="drop-option"
-                                     onclick="selectOption(this)">
-                                    F2
-                                </div>
-
+                        <div class="option">
+                            <div>
+                                <strong>Enable Aimbot</strong>
+                                <small>Enable aimbot</small>
                             </div>
 
+                            <div class="checkbox" onclick="toggleCheckbox(this)"></div>
+                        </div>
+
+                        <div class="option">
+                            <div>
+                                <strong>Smooth Aim</strong>
+                                <small>Make movement smoother</small>
+                            </div>
+
+                            <div class="checkbox active" onclick="toggleCheckbox(this)">×</div>
+                        </div>
+
+                        <div class="option">
+                            <div>
+                                <strong>Visibility Check</strong>
+                                <small>Check target visibility</small>
+                            </div>
+
+                            <div class="checkbox" onclick="toggleCheckbox(this)"></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-header">
+                            <div>
+                                <h3>Target</h3>
+                                <p>Target selection</p>
+                            </div>
+                        </div>
+
+                        <div class="select-box" onclick="toggleDropdown(this)">
+                            <span>Head</span>
+                            <span>⌄</span>
+
+                            <div class="dropdown">
+                                <div onclick="selectOption(this)">Head</div>
+                                <div onclick="selectOption(this)">Chest</div>
+                                <div onclick="selectOption(this)">Body</div>
+                            </div>
+                        </div>
+
+                        <div class="slider-container">
+
+                            <div class="slider-header">
+                                <span>FOV</span>
+                                <span id="fov-value">50</span>
+                            </div>
+
+                            <input
+                                type="range"
+                                min="0"
+                                max="100"
+                                value="50"
+                                id="fov-slider"
+                            >
+
                         </div>
 
                     </div>
 
                 </div>
 
-            </div>
-
-        </section>
+            </section>
 
 
-        <!-- SETTINGS -->
+            <!-- VISUALS -->
+            <section id="visuals" class="page">
 
-        <section id="settings" class="page">
+                <div class="section-title">
+                    <h2>Visuals</h2>
+                    <p>Visual configuration</p>
+                </div>
 
-            <div class="header">
+                <div class="grid">
 
-                <h1>Settings</h1>
+                    <div class="card">
 
-                <p>
-                    General panel configuration
-                </p>
+                        <div class="card-header">
+                            <div>
+                                <h3>ESP</h3>
+                                <p>Visual information</p>
+                            </div>
+                        </div>
 
-            </div>
+                        <div class="option">
+                            <div>
+                                <strong>ESP</strong>
+                                <small>Show player information</small>
+                            </div>
 
+                            <div class="checkbox" onclick="toggleCheckbox(this)"></div>
+                        </div>
 
-            <div class="grid">
+                        <div class="option">
+                            <div>
+                                <strong>Box</strong>
+                                <small>Display player boxes</small>
+                            </div>
 
-                <div class="panel">
+                            <div class="checkbox" onclick="toggleCheckbox(this)"></div>
+                        </div>
 
-                    <div class="panel-title">
-                        Interface
+                        <div class="option">
+                            <div>
+                                <strong>Name</strong>
+                                <small>Display player names</small>
+                            </div>
+
+                            <div class="checkbox active" onclick="toggleCheckbox(this)">×</div>
+                        </div>
+
                     </div>
 
 
-                    <div class="setting">
+                    <div class="card">
 
-                        <span class="label">
-                            Animations
-                        </span>
+                        <div class="card-header">
+                            <div>
+                                <h3>World</h3>
+                                <p>World visuals</p>
+                            </div>
+                        </div>
 
-                        <div class="checkbox active"></div>
+                        <div class="option">
+                            <div>
+                                <strong>Night Mode</strong>
+                                <small>Change world brightness</small>
+                            </div>
 
-                    </div>
+                            <div class="checkbox" onclick="toggleCheckbox(this)"></div>
+                        </div>
 
+                        <div class="option">
+                            <div>
+                                <strong>Crosshair</strong>
+                                <small>Show custom crosshair</small>
+                            </div>
 
-                    <div class="setting">
-
-                        <span class="label">
-                            Compact Mode
-                        </span>
-
-                        <div class="checkbox"></div>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Notifications
-                        </span>
-
-                        <div class="checkbox active"></div>
+                            <div class="checkbox" onclick="toggleCheckbox(this)"></div>
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
-
-        </section>
+            </section>
 
 
-        <!-- INFORMATION -->
+            <!-- KEYBINDS -->
+            <section id="keybinds" class="page">
 
-        <section id="information" class="page">
+                <div class="section-title">
+                    <h2>Keybinds</h2>
+                    <p>Configure your keyboard shortcuts</p>
+                </div>
 
-            <div class="header">
+                <div class="grid">
 
-                <h1>Information</h1>
+                    <div class="card">
 
-                <p>
-                    Account and panel information
-                </p>
+                        <div class="card-header">
+                            <div>
+                                <h3>Shortcuts</h3>
+                                <p>Keyboard configuration</p>
+                            </div>
+                        </div>
 
-            </div>
+                        <div class="keybind">
+                            <span>Aimbot</span>
+                            <button>F1</button>
+                        </div>
+
+                        <div class="keybind">
+                            <span>ESP</span>
+                            <button>F2</button>
+                        </div>
+
+                        <div class="keybind">
+                            <span>Menu</span>
+                            <button>INSERT</button>
+                        </div>
+
+                        <div class="keybind">
+                            <span>Exit</span>
+                            <button>END</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
 
 
-            <div class="info-card">
+            <!-- SETTINGS -->
+            <section id="settings" class="page">
+
+                <div class="section-title">
+                    <h2>Settings</h2>
+                    <p>Application settings</p>
+                </div>
+
+                <div class="grid">
+
+                    <div class="card">
+
+                        <div class="card-header">
+                            <div>
+                                <h3>Interface</h3>
+                                <p>Customize the interface</p>
+                            </div>
+                        </div>
+
+                        <div class="option">
+                            <div>
+                                <strong>Animations</strong>
+                                <small>Enable interface animations</small>
+                            </div>
+
+                            <div class="checkbox active" onclick="toggleCheckbox(this)">×</div>
+                        </div>
+
+                        <div class="option">
+                            <div>
+                                <strong>Notifications</strong>
+                                <small>Show notifications</small>
+                            </div>
+
+                            <div class="checkbox active" onclick="toggleCheckbox(this)">×</div>
+                        </div>
+
+                        <div class="option">
+                            <div>
+                                <strong>Sound</strong>
+                                <small>Enable interface sounds</small>
+                            </div>
+
+                            <div class="checkbox" onclick="toggleCheckbox(this)"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
 
 
-                <div class="info-row">
+            <!-- INFORMATION -->
+            <section id="information" class="page">
 
-                    <span class="info-label">
-                        Username
-                    </span>
+                <div class="section-title">
+                    <h2>Information</h2>
+                    <p>Account and application information</p>
+                </div>
 
-                    <span class="info-value user">
-                        gordao
-                    </span>
+                <div class="info-grid">
+
+                    <div class="info-card">
+
+                        <span class="info-label">Username</span>
+                        <strong>gordao</strong>
+
+                    </div>
+
+                    <div class="info-card">
+
+                        <span class="info-label">Subscription</span>
+                        <strong>99 Days</strong>
+
+                    </div>
+
+                    <div class="info-card">
+
+                        <span class="info-label">Status</span>
+                        <strong class="online-text">Active</strong>
+
+                    </div>
+
+                    <div class="info-card">
+
+                        <span class="info-label">Version</span>
+                        <strong>1.0.0</strong>
+
+                    </div>
 
                 </div>
 
 
-                <div class="info-row">
+                <div class="card about-card">
 
-                    <span class="info-label">
-                        Key Time
-                    </span>
+                    <div class="card-header">
+                        <div>
+                            <h3>About</h3>
+                            <p>Information about this panel</p>
+                        </div>
+                    </div>
 
-                    <span class="info-value">
-                        99 Days
-                    </span>
-
-                </div>
-
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        License
-                    </span>
-
-                    <span class="info-value">
-                        99 Days
-                    </span>
+                    <p class="about-text">
+                        Welcome to your personal dashboard.
+                        Use the sidebar to navigate between the different
+                        sections and configure your preferences.
+                    </p>
 
                 </div>
 
+            </section>
 
-                <div class="info-row">
+        </main>
 
-                    <span class="info-label">
-                        Status
-                    </span>
+    </div>
 
 
-                    <span class="info-value status">
-
-                        <span class="status-dot"></span>
-
-                        Active
-
-                    </span>
-
-                </div>
-
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Version
-                    </span>
-
-                    <span class="info-value">
-                        1.0.0
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="note">
-
-                Internal configuration panel — all systems are
-                currently synchronized and operating normally.
-
-            </div>
-
-        </section>
-
-    </main>
-
-</div>
-
-
-<script>
-
-/* ==========================
-   MUDAR DE ABA
-========================== */
-
-function showPage(pageId, button) {
-
-    document
-        .querySelectorAll(".page")
-        .forEach(page => {
-            page.classList.remove("active");
-        });
-
-    document
-        .getElementById(pageId)
-        .classList.add("active");
-
-
-    document
-        .querySelectorAll(".nav button")
-        .forEach(btn => {
-            btn.classList.remove("active");
-        });
-
-    button.classList.add("active");
-}
-
-
-/* ==========================
-   CHECKBOXES
-========================== */
-
-/*
-   QUALQUER checkbox DA INTERFACE
-   PODE SER CLICADO PARA LIGAR/DESLIGAR.
-*/
-
-document
-    .querySelectorAll(".checkbox")
-    .forEach(checkbox => {
-
-        checkbox.addEventListener("click", function() {
-
-            this.classList.toggle("active");
-
-        });
-
-    });
-
-
-/* ==========================
-   DROPDOWNS
-========================== */
-
-function toggleDropdown(button) {
-
-    const dropdown =
-        button.parentElement;
-
-
-    document
-        .querySelectorAll(".dropdown")
-        .forEach(item => {
-
-            if (item !== dropdown) {
-
-                item.classList.remove("open");
-
-            }
-
-        });
-
-
-    dropdown.classList.toggle("open");
-}
-
-
-function selectOption(option) {
-
-    const dropdown =
-        option.closest(".dropdown");
-
-
-    const button =
-        dropdown.querySelector(
-            ".drop-button span:first-child"
-        );
-
-
-    button.textContent =
-        option.textContent.trim();
-
-
-    dropdown
-        .querySelectorAll(".drop-option")
-        .forEach(item => {
-
-            item.classList.remove("selected");
-
-        });
-
-
-    option.classList.add("selected");
-
-
-    dropdown.classList.remove("open");
-}
-
-
-/* ==========================
-   FECHAR DROPDOWNS
-========================== */
-
-document.addEventListener("click", function(event) {
-
-    if (!event.target.closest(".dropdown")) {
-
-        document
-            .querySelectorAll(".dropdown")
-            .forEach(dropdown => {
-
-                dropdown.classList.remove("open");
-
-            });
-
-    }
-
-});
-
-</script>
+    <script src="js/script.js"></script>
 
 </body>
 </html>
