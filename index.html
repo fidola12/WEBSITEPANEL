@@ -1,596 +1,388 @@
+```html
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Gordao Panel</title>
-
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    min-height: 100vh;
-    background: #080808;
-    color: #ddd;
-    font-family: "Segoe UI", Arial, sans-serif;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* APP */
-
-.app {
-    width: 760px;
-    height: 455px;
-
-    display: flex;
-
-    background: #101010;
-    border: 1px solid #202020;
-    border-radius: 8px;
-
-    overflow: hidden;
-
-    box-shadow: 0 20px 60px rgba(0,0,0,.55);
-}
-
-
-/* SIDEBAR */
-
-.sidebar {
-    width: 155px;
-
-    background: #0d0d0d;
-    border-right: 1px solid #1d1d1d;
-
-    padding: 18px 10px;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.logo {
-    padding: 5px 10px 22px;
-
-    color: #fff;
-
-    font-size: 14px;
-    font-weight: 800;
-
-    letter-spacing: .7px;
-}
-
-.logo span {
-    color: #ff1010;
-}
-
-.nav {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.nav button {
-    position: relative;
-
-    height: 38px;
-
-    border: 0;
-    outline: none;
-
-    background: transparent;
-    color: #777;
-
-    text-align: left;
-
-    padding: 0 12px;
-
-    border-radius: 4px;
-
-    cursor: pointer;
-
-    font-size: 11px;
-    font-weight: 600;
-
-    transition: .2s;
-}
-
-.nav button:hover {
-    color: #ddd;
-    background: #151515;
-}
-
-.nav button.active {
-    color: #fff;
-    background: #181818;
-}
-
-.nav button.active::before {
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    top: 9px;
-
-    width: 2px;
-    height: 20px;
-
-    background: #ff1010;
-
-    border-radius: 2px;
-
-    box-shadow: 0 0 8px #ff1010;
-}
-
-
-/* CONTENT */
-
-.content {
-    flex: 1;
-
-    padding: 24px;
-
-    overflow-y: auto;
-}
-
-.page {
-    display: none;
-
-    animation: fade .2s ease;
-}
-
-.page.active {
-    display: block;
-}
-
-@keyframes fade {
-    from {
-        opacity: 0;
-        transform: translateY(4px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-/* HEADER */
-
-.header {
-    margin-bottom: 20px;
-}
-
-.header h1 {
-    color: #eee;
-
-    font-size: 17px;
-    font-weight: 700;
-}
-
-.header p {
-    margin-top: 5px;
-
-    color: #555;
-
-    font-size: 10px;
-}
-
-
-/* GRID */
-
-.grid {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 12px;
-}
-
-
-/* PANEL */
-
-.panel {
-    background: #171717;
-
-    border: 1px solid #222;
-
-    border-radius: 6px;
-
-    padding: 16px;
-}
-
-.panel-title {
-    color: #eee;
-
-    font-size: 11px;
-    font-weight: 700;
-
-    margin-bottom: 13px;
-}
-
-
-/* SETTING */
-
-.setting {
-    height: 39px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    border-bottom: 1px solid #202020;
-}
-
-.setting:last-child {
-    border-bottom: none;
-}
-
-.label {
-    color: #aaa;
-
-    font-size: 11px;
-}
-
-
-/* CHECKBOX */
-
-.checkbox {
-    width: 17px;
-    height: 17px;
-
-    border-radius: 3px;
-
-    background: #0d0d0d;
-
-    border: 1px solid #292929;
-
-    cursor: pointer;
-
-    position: relative;
-
-    transition:
-        background .15s ease,
-        border-color .15s ease,
-        box-shadow .15s ease,
-        transform .1s ease;
-}
-
-.checkbox:hover {
-    border-color: #555;
-
-    transform: scale(1.04);
-}
-
-.checkbox.active {
-    background: #ff1010;
-
-    border-color: #ff1010;
-
-    box-shadow: 0 0 8px rgba(255,16,16,.3);
-}
-
-
-/* X */
-
-.checkbox.active::after {
-    content: "×";
-
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -54%);
-
-    color: white;
-
-    font-size: 15px;
-    font-weight: 800;
-
-    line-height: 1;
-}
-
-
-/* DROPDOWN */
-
-.dropdown {
-    position: relative;
-}
-
-.drop-button {
-    width: 125px;
-    height: 28px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 9px;
-
-    background: #0d0d0d;
-
-    color: #bbb;
-
-    border: 1px solid #292929;
-
-    border-radius: 4px;
-
-    font-size: 10px;
-
-    cursor: pointer;
-
-    transition: .2s;
-}
-
-.drop-button:hover {
-    border-color: #444;
-
-    color: #fff;
-}
-
-.arrow {
-    color: #666;
-
-    font-size: 9px;
-
-    transition: .2s;
-}
-
-.dropdown.open .arrow {
-    transform: rotate(180deg);
-}
-
-.drop-menu {
-    position: absolute;
-
-    z-index: 50;
-
-    top: calc(100% + 5px);
-    left: 0;
-
-    width: 125px;
-
-    background: #111;
-
-    border: 1px solid #292929;
-
-    border-radius: 4px;
-
-    padding: 4px;
-
-    display: none;
-
-    box-shadow: 0 10px 25px rgba(0,0,0,.55);
-}
-
-.dropdown.open .drop-menu {
-    display: block;
-}
-
-.drop-option {
-    padding: 8px;
-
-    color: #888;
-
-    font-size: 10px;
-
-    border-radius: 3px;
-
-    cursor: pointer;
-
-    transition: .15s;
-}
-
-.drop-option:hover {
-    background: #1d1d1d;
-
-    color: #fff;
-}
-
-.drop-option.selected {
-    color: #ff3030;
-}
-
-
-/* INFORMATION */
-
-.info-card {
-    background: #171717;
-
-    border: 1px solid #222;
-
-    border-radius: 6px;
-
-    overflow: hidden;
-}
-
-.info-row {
-    min-height: 52px;
-
-    padding: 0 17px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    border-bottom: 1px solid #222;
-}
-
-.info-row:last-child {
-    border-bottom: none;
-}
-
-.info-label {
-    color: #777;
-
-    font-size: 10px;
-}
-
-.info-value {
-    color: #eee;
-
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.user {
-    color: #ff2020;
-}
-
-.status {
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-}
-
-.status-dot {
-    width: 6px;
-    height: 6px;
-
-    background: #ff1010;
-
-    border-radius: 50%;
-
-    box-shadow: 0 0 7px #ff1010;
-}
-
-.note {
-    margin-top: 12px;
-
-    padding: 13px;
-
-    background: #121212;
-
-    border: 1px solid #202020;
-
-    border-radius: 5px;
-
-    color: #555;
-
-    font-size: 10px;
-
-    line-height: 1.5;
-}
-
-
-/* SLIDER */
-
-.slider-row {
-    margin-top: 16px;
-}
-
-.slider-value {
-    display: flex;
-
-    justify-content: space-between;
-
-    margin-bottom: 10px;
-}
-
-.slider-value span:first-child {
-    color: #555;
-
-    font-size: 10px;
-}
-
-.slider-value span:last-child {
-    color: #bbb;
-
-    font-size: 10px;
-}
-
-.slider {
-    height: 4px;
-
-    background: #292929;
-
-    border-radius: 5px;
-
-    position: relative;
-}
-
-.slider-fill {
-    width: 65%;
-    height: 100%;
-
-    background: #ff1010;
-
-    border-radius: 5px;
-}
-
-.knob {
-    position: absolute;
-
-    left: 65%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: 10px;
-    height: 10px;
-
-    background: #ff1010;
-
-    border: 2px solid #171717;
-
-    border-radius: 50%;
-}
-
-
-/* RESPONSIVE */
-
-@media(max-width: 700px) {
-
-    .app {
-        width: 96vw;
-        height: 90vh;
-    }
-
-    .sidebar {
-        width: 125px;
-    }
-
-    .grid {
-        grid-template-columns: 1fr;
-    }
-
-    .content {
-        overflow-y: auto;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gordao Panel</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #080808;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app {
+            width: 760px;
+            height: 455px;
+            display: flex;
+            background: #101010;
+            border: 1px solid #292929;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 155px;
+            background: #0c0c0c;
+            border-right: 1px solid #242424;
+            padding: 20px 12px;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 28px;
+            padding-left: 8px;
+            color: #fff;
+        }
+
+        .logo span {
+            color: #e33434;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .nav button {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: #777;
+            text-align: left;
+            padding: 10px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.15s;
+        }
+
+        .nav button:hover {
+            background: #171717;
+            color: #ccc;
+        }
+
+        .nav button.active {
+            background: #1b1b1b;
+            color: #fff;
+        }
+
+        /* CONTENT */
+
+        .content {
+            flex: 1;
+            padding: 25px 28px;
+            overflow-y: auto;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #666;
+            letter-spacing: 0.8px;
+            margin-bottom: 10px;
+        }
+
+        .box {
+            background: #151515;
+            border: 1px solid #252525;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .row {
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 13px;
+            border-bottom: 1px solid #222;
+        }
+
+        .row:last-child {
+            border-bottom: none;
+        }
+
+        .row-left {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .row-title {
+            font-size: 12px;
+            color: #ddd;
+        }
+
+        .row-description {
+            font-size: 9px;
+            color: #555;
+        }
+
+        /* CHECKBOX */
+
+        .checkbox {
+            width: 17px;
+            height: 17px;
+            border: 1px solid #3a3a3a;
+            border-radius: 4px;
+            background: #101010;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.15s;
+            flex-shrink: 0;
+        }
+
+        .checkbox:hover {
+            border-color: #555;
+        }
+
+        .checkbox.active {
+            background: #e33434;
+            border-color: #e33434;
+        }
+
+        .checkbox.active::after {
+            content: "×";
+            color: #fff;
+            font-size: 14px;
+            line-height: 1;
+            font-weight: bold;
+        }
+
+        /* DROPDOWN */
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-button {
+            min-width: 130px;
+            height: 30px;
+            padding: 0 10px;
+            background: #101010;
+            border: 1px solid #2b2b2b;
+            border-radius: 4px;
+            color: #aaa;
+            cursor: pointer;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .dropdown-button:hover {
+            border-color: #444;
+            color: #ddd;
+        }
+
+        .arrow {
+            font-size: 9px;
+            color: #555;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 34px;
+            right: 0;
+            width: 130px;
+            background: #141414;
+            border: 1px solid #2b2b2b;
+            border-radius: 4px;
+            z-index: 100;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .dropdown.open .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-option {
+            padding: 9px 10px;
+            font-size: 11px;
+            color: #777;
+            cursor: pointer;
+        }
+
+        .dropdown-option:hover {
+            background: #202020;
+            color: #fff;
+        }
+
+        .dropdown-option.selected {
+            color: #e33434;
+        }
+
+        /* FOV */
+
+        .slider-row {
+            padding: 15px 13px;
+        }
+
+        .slider-value {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .slider-value span:first-child {
+            font-size: 12px;
+            color: #ddd;
+        }
+
+        #fovValue {
+            font-size: 11px;
+            color: #e33434;
+            font-weight: 600;
+        }
+
+        .fov-slider {
+            width: 100%;
+            height: 5px;
+            appearance: none;
+            -webkit-appearance: none;
+            background: #292929;
+            border-radius: 10px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .fov-slider::-webkit-slider-thumb {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #e33434;
+            border: 2px solid #101010;
+            box-shadow: 0 0 0 1px #e33434;
+            cursor: pointer;
+        }
+
+        .fov-slider::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #e33434;
+            border: 2px solid #101010;
+            box-shadow: 0 0 0 1px #e33434;
+            cursor: pointer;
+        }
+
+        /* INFORMATION */
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .info-card {
+            background: #151515;
+            border: 1px solid #252525;
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .info-label {
+            font-size: 9px;
+            color: #555;
+            text-transform: uppercase;
+            margin-bottom: 7px;
+        }
+
+        .info-value {
+            font-size: 13px;
+            color: #ddd;
+        }
+
+        .status {
+            color: #e33434;
+        }
+
+        .info-note {
+            margin-top: 15px;
+            padding: 12px;
+            border: 1px solid #252525;
+            background: #121212;
+            border-radius: 6px;
+            color: #555;
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        /* SCROLLBAR */
+
+        .content::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: #0c0c0c;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 10px;
+        }
+    </style>
 </head>
-
 
 <body>
 
 <div class="app">
 
-
     <!-- SIDEBAR -->
-
     <aside class="sidebar">
 
         <div class="logo">
             Gordao<span>.</span>
         </div>
 
-        <nav class="nav">
+        <div class="nav">
 
-            <button class="active"
-                    onclick="showPage('functions', this)">
+            <button class="active" onclick="showPage('functions', this)">
                 Functions
             </button>
 
@@ -614,124 +406,93 @@ body {
                 Information
             </button>
 
-        </nav>
+        </div>
 
     </aside>
 
 
     <!-- CONTENT -->
-
     <main class="content">
 
-
         <!-- FUNCTIONS -->
-
         <section id="functions" class="page active">
 
-            <div class="header">
-
-                <h1>Functions</h1>
-
-                <p>
-                    Internal function configuration
-                </p>
-
+            <div class="page-title">
+                Functions
             </div>
 
+            <div class="section">
 
-            <div class="grid">
+                <div class="section-title">
+                    Combat Functions
+                </div>
 
+                <div class="box">
 
-                <div class="panel">
-
-                    <div class="panel-title">
-                        Combat Functions
-                    </div>
-
-
-                    <div class="setting">
-
-                        <span class="label">
-                            No Spread
-                        </span>
-
+                    <div class="row">
+                        <div class="row-left">
+                            <span class="row-title">No Spread</span>
+                            <span class="row-description">Remove weapon spread</span>
+                        </div>
                         <div class="checkbox active"></div>
-
                     </div>
 
-
-                    <div class="setting">
-
-                        <span class="label">
-                            No Reload
-                        </span>
-
+                    <div class="row">
+                        <div class="row-left">
+                            <span class="row-title">No Reload</span>
+                            <span class="row-description">Disable reload delay</span>
+                        </div>
                         <div class="checkbox"></div>
-
                     </div>
 
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Aim Lock
-                        </span>
-
+                    <div class="row">
+                        <div class="row-left">
+                            <span class="row-title">Aim Lock</span>
+                            <span class="row-description">Lock target while aiming</span>
+                        </div>
                         <div class="checkbox"></div>
-
                     </div>
 
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Quick Switch
-                        </span>
-
+                    <div class="row">
+                        <div class="row-left">
+                            <span class="row-title">Quick Switch</span>
+                            <span class="row-description">Faster weapon switching</span>
+                        </div>
                         <div class="checkbox"></div>
-
                     </div>
 
                 </div>
 
-
-                <div class="panel">
-
-                    <div class="panel-title">
-                        General
-                    </div>
+            </div>
 
 
-                    <div class="setting">
+            <div class="section">
 
-                        <span class="label">
-                            Enabled
-                        </span>
+                <div class="section-title">
+                    General
+                </div>
 
+                <div class="box">
+
+                    <div class="row">
+                        <div class="row-left">
+                            <span class="row-title">Enabled</span>
+                        </div>
                         <div class="checkbox active"></div>
-
                     </div>
 
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Show Status
-                        </span>
-
+                    <div class="row">
+                        <div class="row-left">
+                            <span class="row-title">Show Status</span>
+                        </div>
                         <div class="checkbox"></div>
-
                     </div>
 
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Auto Config
-                        </span>
-
+                    <div class="row">
+                        <div class="row-left">
+                            <span class="row-title">Auto Config</span>
+                        </div>
                         <div class="checkbox"></div>
-
                     </div>
 
                 </div>
@@ -742,66 +503,47 @@ body {
 
 
         <!-- AIMBOT -->
-
         <section id="aimbot" class="page">
 
-            <div class="header">
-
-                <h1>Aimbot</h1>
-
-                <p>
-                    Aimbot configuration
-                </p>
-
+            <div class="page-title">
+                Aimbot
             </div>
 
+            <div class="section">
 
-            <div class="grid">
+                <div class="section-title">
+                    Target
+                </div>
 
+                <div class="box">
 
-                <div class="panel">
+                    <div class="row">
 
-                    <div class="panel-title">
-                        Target
-                    </div>
-
-
-                    <!-- AIMBOT TYPE -->
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Aimbot Type
-                        </span>
-
+                        <div class="row-left">
+                            <span class="row-title">Aimbot Type</span>
+                        </div>
 
                         <div class="dropdown">
 
-                            <button class="drop-button"
+                            <button class="dropdown-button"
                                     onclick="toggleDropdown(this)">
-
                                 <span>None</span>
-
-                                <span class="arrow">
-                                    ▼
-                                </span>
-
+                                <span class="arrow">▼</span>
                             </button>
 
+                            <div class="dropdown-menu">
 
-                            <div class="drop-menu">
-
-                                <div class="drop-option selected"
+                                <div class="dropdown-option selected"
                                      onclick="selectOption(this)">
                                     None
                                 </div>
 
-                                <div class="drop-option"
+                                <div class="dropdown-option"
                                      onclick="selectOption(this)">
                                     Crosshair
                                 </div>
 
-                                <div class="drop-option"
+                                <div class="dropdown-option"
                                      onclick="selectOption(this)">
                                     Nearest
                                 </div>
@@ -813,42 +555,33 @@ body {
                     </div>
 
 
-                    <!-- TARGET -->
+                    <div class="row">
 
-                    <div class="setting">
-
-                        <span class="label">
-                            Aimbot Target
-                        </span>
-
+                        <div class="row-left">
+                            <span class="row-title">Aimbot Target</span>
+                        </div>
 
                         <div class="dropdown">
 
-                            <button class="drop-button"
+                            <button class="dropdown-button"
                                     onclick="toggleDropdown(this)">
-
                                 <span>Crosshair</span>
-
-                                <span class="arrow">
-                                    ▼
-                                </span>
-
+                                <span class="arrow">▼</span>
                             </button>
 
+                            <div class="dropdown-menu">
 
-                            <div class="drop-menu">
-
-                                <div class="drop-option selected"
+                                <div class="dropdown-option selected"
                                      onclick="selectOption(this)">
                                     Crosshair
                                 </div>
 
-                                <div class="drop-option"
+                                <div class="dropdown-option"
                                      onclick="selectOption(this)">
                                     Head
                                 </div>
 
-                                <div class="drop-option"
+                                <div class="dropdown-option"
                                      onclick="selectOption(this)">
                                     Chest
                                 </div>
@@ -860,42 +593,33 @@ body {
                     </div>
 
 
-                    <!-- BONE -->
+                    <div class="row">
 
-                    <div class="setting">
-
-                        <span class="label">
-                            Aimbot Bone
-                        </span>
-
+                        <div class="row-left">
+                            <span class="row-title">Aimbot Bone</span>
+                        </div>
 
                         <div class="dropdown">
 
-                            <button class="drop-button"
+                            <button class="dropdown-button"
                                     onclick="toggleDropdown(this)">
-
-                                <span>Chest</span>
-
-                                <span class="arrow">
-                                    ▼
-                                </span>
-
+                                <span>Head</span>
+                                <span class="arrow">▼</span>
                             </button>
 
+                            <div class="dropdown-menu">
 
-                            <div class="drop-menu">
-
-                                <div class="drop-option"
+                                <div class="dropdown-option selected"
                                      onclick="selectOption(this)">
                                     Head
                                 </div>
 
-                                <div class="drop-option selected"
+                                <div class="dropdown-option"
                                      onclick="selectOption(this)">
                                     Chest
                                 </div>
 
-                                <div class="drop-option"
+                                <div class="dropdown-option"
                                      onclick="selectOption(this)">
                                     Body
                                 </div>
@@ -908,46 +632,36 @@ body {
 
                 </div>
 
-
-                <!-- OPTIONS -->
-
-                <div class="panel">
-
-                    <div class="panel-title">
-                        Options
-                    </div>
+            </div>
 
 
-                    <div class="setting">
+            <div class="section">
 
-                        <span class="label">
-                            Full Enemy
-                        </span>
+                <div class="section-title">
+                    Options
+                </div>
 
+                <div class="box">
+
+                    <div class="row">
+                        <div class="row-left">
+                            <span class="row-title">Full Enemy</span>
+                        </div>
                         <div class="checkbox"></div>
-
                     </div>
 
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Aimbot Locked
-                        </span>
-
+                    <div class="row">
+                        <div class="row-left">
+                            <span class="row-title">Aimbot Locked</span>
+                        </div>
                         <div class="checkbox active"></div>
-
                     </div>
 
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Show Fov
-                        </span>
-
+                    <div class="row">
+                        <div class="row-left">
+                            <span class="row-title">Show Fov</span>
+                        </div>
                         <div class="checkbox"></div>
-
                     </div>
 
                 </div>
@@ -958,108 +672,79 @@ body {
 
 
         <!-- VISUALS -->
-
         <section id="visuals" class="page">
 
-            <div class="header">
-
-                <h1>Visuals</h1>
-
-                <p>
-                    Visual configuration
-                </p>
-
+            <div class="page-title">
+                Visuals
             </div>
 
+            <div class="section">
 
-            <div class="grid">
+                <div class="section-title">
+                    Visual Options
+                </div>
 
-                <div class="panel">
+                <div class="box">
 
-                    <div class="panel-title">
-                        Visual Options
-                    </div>
-
-
-                    <div class="setting">
-
-                        <span class="label">
-                            ESP
-                        </span>
-
+                    <div class="row">
+                        <div class="row-left">
+                            <span class="row-title">ESP</span>
+                        </div>
                         <div class="checkbox"></div>
-
                     </div>
 
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Fov Circle
-                        </span>
-
+                    <div class="row">
+                        <div class="row-left">
+                            <span class="row-title">Fov Circle</span>
+                        </div>
                         <div class="checkbox active"></div>
-
                     </div>
 
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Crosshair
-                        </span>
-
+                    <div class="row">
+                        <div class="row-left">
+                            <span class="row-title">Crosshair</span>
+                        </div>
                         <div class="checkbox active"></div>
-
                     </div>
 
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Watermark
-                        </span>
-
+                    <div class="row">
+                        <div class="row-left">
+                            <span class="row-title">Watermark</span>
+                        </div>
                         <div class="checkbox"></div>
-
                     </div>
 
                 </div>
 
+            </div>
 
-                <div class="panel">
 
-                    <div class="panel-title">
-                        Fov
+            <div class="section">
+
+                <div class="section-title">
+                    Fov
+                </div>
+
+                <div class="box">
+
+                    <div class="slider-row">
+
+                        <div class="slider-value">
+                            <span>Field of View</span>
+                            <span id="fovValue">3,000</span>
+                        </div>
+
+                        <input
+                            type="range"
+                            id="fovSlider"
+                            class="fov-slider"
+                            min="0"
+                            max="5000"
+                            value="3000"
+                            step="1"
+                        >
+
                     </div>
-
-
-                    
-<div class="slider-row">
-
-    <div class="slider-value">
-
-        <span>
-            Field of View
-        </span>
-
-        <span id="fovValue">
-            3,000
-        </span>
-
-    </div>
-
-    <input
-        type="range"
-        id="fovSlider"
-        class="fov-slider"
-        min="0"
-        max="5000"
-        value="3000"
-    >
-
-</div>
-
 
                 </div>
 
@@ -1069,63 +754,47 @@ body {
 
 
         <!-- KEYBINDS -->
-
         <section id="keybinds" class="page">
 
-            <div class="header">
-
-                <h1>Keybinds</h1>
-
-                <p>
-                    Configure your keybinds
-                </p>
-
+            <div class="page-title">
+                Keybinds
             </div>
 
+            <div class="section">
 
-            <div class="grid">
+                <div class="section-title">
+                    Controls
+                </div>
 
-                <div class="panel">
+                <div class="box">
 
-                    <div class="panel-title">
-                        Camera
-                    </div>
+                    <div class="row">
 
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Camera Supreme
-                        </span>
-
+                        <div class="row-left">
+                            <span class="row-title">Camera Supreme</span>
+                        </div>
 
                         <div class="dropdown">
 
-                            <button class="drop-button"
+                            <button class="dropdown-button"
                                     onclick="toggleDropdown(this)">
-
                                 <span>None</span>
-
-                                <span class="arrow">
-                                    ▼
-                                </span>
-
+                                <span class="arrow">▼</span>
                             </button>
 
+                            <div class="dropdown-menu">
 
-                            <div class="drop-menu">
-
-                                <div class="drop-option selected"
+                                <div class="dropdown-option selected"
                                      onclick="selectOption(this)">
                                     None
                                 </div>
 
-                                <div class="drop-option"
+                                <div class="dropdown-option"
                                      onclick="selectOption(this)">
                                     F1
                                 </div>
 
-                                <div class="drop-option"
+                                <div class="dropdown-option"
                                      onclick="selectOption(this)">
                                     F2
                                 </div>
@@ -1144,56 +813,45 @@ body {
 
 
         <!-- SETTINGS -->
-
         <section id="settings" class="page">
 
-            <div class="header">
-
-                <h1>Settings</h1>
-
-                <p>
-                    General panel configuration
-                </p>
-
+            <div class="page-title">
+                Settings
             </div>
 
+            <div class="section">
 
-            <div class="grid">
+                <div class="section-title">
+                    Interface
+                </div>
 
-                <div class="panel">
+                <div class="box">
 
-                    <div class="panel-title">
-                        Interface
-                    </div>
+                    <div class="row">
 
-
-                    <div class="setting">
-
-                        <span class="label">
-                            Animations
-                        </span>
+                        <div class="row-left">
+                            <span class="row-title">Animations</span>
+                        </div>
 
                         <div class="checkbox active"></div>
 
                     </div>
 
+                    <div class="row">
 
-                    <div class="setting">
-
-                        <span class="label">
-                            Compact Mode
-                        </span>
+                        <div class="row-left">
+                            <span class="row-title">Compact Mode</span>
+                        </div>
 
                         <div class="checkbox"></div>
 
                     </div>
 
+                    <div class="row">
 
-                    <div class="setting">
-
-                        <span class="label">
-                            Notifications
-                        </span>
+                        <div class="row-left">
+                            <span class="row-title">Notifications</span>
+                        </div>
 
                         <div class="checkbox active"></div>
 
@@ -1207,100 +865,43 @@ body {
 
 
         <!-- INFORMATION -->
-
         <section id="information" class="page">
 
-            <div class="header">
-
-                <h1>Information</h1>
-
-                <p>
-                    Account and panel information
-                </p>
-
+            <div class="page-title">
+                Information
             </div>
 
+            <div class="info-grid">
 
-            <div class="info-card">
-
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Username
-                    </span>
-
-                    <span class="info-value user">
-                        gordao
-                    </span>
-
+                <div class="info-card">
+                    <div class="info-label">Username</div>
+                    <div class="info-value">gordao</div>
                 </div>
 
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Key Time
-                    </span>
-
-                    <span class="info-value">
-                        99 Days
-                    </span>
-
+                <div class="info-card">
+                    <div class="info-label">Key Time</div>
+                    <div class="info-value">99 Days</div>
                 </div>
 
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        License
-                    </span>
-
-                    <span class="info-value">
-                        99 Days
-                    </span>
-
+                <div class="info-card">
+                    <div class="info-label">License</div>
+                    <div class="info-value">99 Days</div>
                 </div>
 
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Status
-                    </span>
-
-
-                    <span class="info-value status">
-
-                        <span class="status-dot"></span>
-
-                        Active
-
-                    </span>
-
+                <div class="info-card">
+                    <div class="info-label">Status</div>
+                    <div class="info-value status">Active</div>
                 </div>
 
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Version
-                    </span>
-
-                    <span class="info-value">
-                        1.0.0
-                    </span>
-
+                <div class="info-card">
+                    <div class="info-label">Version</div>
+                    <div class="info-value">1.0.0</div>
                 </div>
 
             </div>
 
-
-            <div class="note">
-
-                Gordao configuration panel — all systems are
-                currently synchronized and operating normally.
-
+            <div class="info-note">
+                Gordao Panel — configuration interface.
             </div>
 
         </section>
@@ -1312,47 +913,33 @@ body {
 
 <script>
 
-/* ==========================
-   MUDAR DE ABA
-========================== */
+    /* =========================
+       NAVEGAÇÃO
+    ========================= */
 
-function showPage(pageId, button) {
+    function showPage(pageId, button) {
 
-    document
-        .querySelectorAll(".page")
-        .forEach(page => {
+        document.querySelectorAll(".page").forEach(page => {
             page.classList.remove("active");
         });
 
-    document
-        .getElementById(pageId)
-        .classList.add("active");
+        document.getElementById(pageId).classList.add("active");
 
-
-    document
-        .querySelectorAll(".nav button")
-        .forEach(btn => {
+        document.querySelectorAll(".nav button").forEach(btn => {
             btn.classList.remove("active");
         });
 
-    button.classList.add("active");
-}
+        button.classList.add("active");
+    }
 
 
-/* ==========================
-   CHECKBOXES
-========================== */
+    /* =========================
+       CHECKBOX
+    ========================= */
 
-/*
-   QUALQUER checkbox DA INTERFACE
-   PODE SER CLICADO PARA LIGAR/DESLIGAR.
-*/
+    document.querySelectorAll(".checkbox").forEach(checkbox => {
 
-document
-    .querySelectorAll(".checkbox")
-    .forEach(checkbox => {
-
-        checkbox.addEventListener("click", function() {
+        checkbox.addEventListener("click", function () {
 
             this.classList.toggle("active");
 
@@ -1361,86 +948,82 @@ document
     });
 
 
-/* ==========================
-   DROPDOWNS
-========================== */
+    /* =========================
+       DROPDOWNS
+    ========================= */
 
-function toggleDropdown(button) {
+    function toggleDropdown(button) {
 
-    const dropdown =
-        button.parentElement;
+        const dropdown = button.parentElement;
 
-
-    document
-        .querySelectorAll(".dropdown")
-        .forEach(item => {
+        document.querySelectorAll(".dropdown").forEach(item => {
 
             if (item !== dropdown) {
-
                 item.classList.remove("open");
-
             }
 
         });
 
-
-    dropdown.classList.toggle("open");
-}
-
-
-function selectOption(option) {
-
-    const dropdown =
-        option.closest(".dropdown");
+        dropdown.classList.toggle("open");
+    }
 
 
-    const button =
-        dropdown.querySelector(
-            ".drop-button span:first-child"
-        );
+    function selectOption(option) {
 
+        const dropdown = option.closest(".dropdown");
+        const button = dropdown.querySelector(".dropdown-button span:first-child");
 
-    button.textContent =
-        option.textContent.trim();
+        button.textContent = option.textContent.trim();
 
-
-    dropdown
-        .querySelectorAll(".drop-option")
-        .forEach(item => {
-
+        dropdown.querySelectorAll(".dropdown-option").forEach(item => {
             item.classList.remove("selected");
-
         });
 
+        option.classList.add("selected");
 
-    option.classList.add("selected");
-
-
-    dropdown.classList.remove("open");
-}
+        dropdown.classList.remove("open");
+    }
 
 
-/* ==========================
-   FECHAR DROPDOWNS
-========================== */
+    /* Fecha dropdown quando clicar fora */
 
-document.addEventListener("click", function(event) {
+    document.addEventListener("click", function(event) {
 
-    if (!event.target.closest(".dropdown")) {
+        if (!event.target.closest(".dropdown")) {
 
-        document
-            .querySelectorAll(".dropdown")
-            .forEach(dropdown => {
-
+            document.querySelectorAll(".dropdown").forEach(dropdown => {
                 dropdown.classList.remove("open");
-
             });
+
+        }
+
+    });
+
+
+    /* =========================
+       FOV SLIDER
+    ========================= */
+
+    const fovSlider = document.getElementById("fovSlider");
+    const fovValue = document.getElementById("fovValue");
+
+
+    function updateFov() {
+
+        const value = Number(fovSlider.value);
+
+        fovValue.textContent = value.toLocaleString("en-US");
 
     }
 
-});
+
+    fovSlider.addEventListener("input", updateFov);
+
+    updateFov();
+
 
 </script>
 
 </body>
 </html>
+```
