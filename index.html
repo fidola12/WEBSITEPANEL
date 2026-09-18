@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -512,7 +512,11 @@ body {
     font-size: 10px;
 }
 
+
+/* FOV SLIDER */
+
 .slider {
+    width: 100%;
     height: 4px;
 
     background: #292929;
@@ -522,23 +526,92 @@ body {
     position: relative;
 }
 
-.slider-fill {
-    width: 65%;
-    height: 100%;
+
+/*
+    O input fica por cima da barra antiga.
+    A cor é a mesma do painel: #ff1010.
+*/
+
+.fov-slider {
+    width: 100%;
+    height: 14px;
+
+    position: absolute;
+
+    left: 0;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    background: transparent;
+
+    outline: none;
+
+    cursor: pointer;
+
+    z-index: 5;
+}
+
+
+/* Barra Chrome / Edge / Safari */
+
+.fov-slider::-webkit-slider-runnable-track {
+    height: 4px;
+
+    background: #292929;
+
+    border-radius: 5px;
+}
+
+
+/* Barra Firefox */
+
+.fov-slider::-moz-range-track {
+    height: 4px;
+
+    background: #292929;
+
+    border-radius: 5px;
+}
+
+
+/* Parte preenchida no Chrome */
+
+.fov-slider::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+
+    width: 10px;
+    height: 10px;
+
+    margin-top: -3px;
+
+    background: #ff1010;
+
+    border: 2px solid #171717;
+
+    border-radius: 50%;
+
+    box-shadow: 0 0 0 1px #ff1010;
+
+    cursor: pointer;
+}
+
+
+/* Parte preenchida no Firefox */
+
+.fov-slider::-moz-range-progress {
+    height: 4px;
 
     background: #ff1010;
 
     border-radius: 5px;
 }
 
-.knob {
-    position: absolute;
-
-    left: 65%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
+.fov-slider::-moz-range-thumb {
     width: 10px;
     height: 10px;
 
@@ -547,6 +620,10 @@ body {
     border: 2px solid #171717;
 
     border-radius: 50%;
+
+    box-shadow: 0 0 0 1px #ff1010;
+
+    cursor: pointer;
 }
 
 
@@ -585,7 +662,7 @@ body {
     <aside class="sidebar">
 
         <div class="logo">
-            INTERNAL<span>.</span>
+            Gordao<span>.</span>
         </div>
 
         <nav class="nav">
@@ -1043,7 +1120,7 @@ body {
                                 Field of View
                             </span>
 
-                            <span>
+                            <span id="fovValue">
                                 3,000
                             </span>
 
@@ -1052,9 +1129,15 @@ body {
 
                         <div class="slider">
 
-                            <div class="slider-fill"></div>
-
-                            <div class="knob"></div>
+                            <input
+                                type="range"
+                                id="fovSlider"
+                                class="fov-slider"
+                                min="0"
+                                max="5000"
+                                step="1"
+                                value="3000"
+                            >
 
                         </div>
 
@@ -1439,7 +1522,43 @@ document.addEventListener("click", function(event) {
 
 });
 
+
+/* ==========================
+   FOV
+========================== */
+
+const fovSlider =
+    document.getElementById("fovSlider");
+
+const fovValue =
+    document.getElementById("fovValue");
+
+
+function updateFov() {
+
+    const value =
+        Number(fovSlider.value);
+
+    fovValue.textContent =
+        value.toLocaleString("en-US");
+
+}
+
+
+/* Atualiza enquanto arrasta */
+
+fovSlider.addEventListener(
+    "input",
+    updateFov
+);
+
+
+/* Valor inicial */
+
+updateFov();
+
 </script>
 
 </body>
 </html>
+```
