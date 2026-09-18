@@ -684,6 +684,16 @@ input[type="range"]::-moz-range-thumb {
     }
 }
 
+.app {
+    transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+}
+
+.app.menu-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(.98);
+    pointer-events: none;
+}
 
 @media (max-width: 600px) {
 
