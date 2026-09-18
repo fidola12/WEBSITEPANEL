@@ -40,6 +40,21 @@ body {
     overflow: hidden;
 
     box-shadow: 0 20px 60px rgba(0,0,0,.55);
+
+    /* animação ao esconder/mostrar */
+    transition:
+        opacity .18s ease,
+        transform .18s ease,
+        visibility .18s ease;
+}
+
+/* MENU ESCONDIDO */
+
+.app.menu-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(.98);
+    pointer-events: none;
 }
 
 
@@ -527,10 +542,7 @@ body {
 }
 
 
-/*
-    O input fica por cima da barra antiga.
-    A cor é a mesma do painel: #ff1010.
-*/
+/* INPUT DO FOV */
 
 .fov-slider {
     width: 100%;
@@ -578,7 +590,7 @@ body {
 }
 
 
-/* Parte preenchida no Chrome */
+/* Thumb Chrome */
 
 .fov-slider::-webkit-slider-thumb {
     appearance: none;
@@ -601,7 +613,7 @@ body {
 }
 
 
-/* Parte preenchida no Firefox */
+/* Thumb Firefox */
 
 .fov-slider::-moz-range-progress {
     height: 4px;
@@ -654,7 +666,7 @@ body {
 
 <body>
 
-<div class="app">
+<div class="app" id="app">
 
 
     <!-- SIDEBAR -->
@@ -1170,14 +1182,14 @@ body {
                 <div class="panel">
 
                     <div class="panel-title">
-                        Camera
+                        Menu
                     </div>
 
 
                     <div class="setting">
 
                         <span class="label">
-                            Camera Supreme
+                            Toggle Menu
                         </span>
 
 
@@ -1186,7 +1198,7 @@ body {
                             <button class="drop-button"
                                     onclick="toggleDropdown(this)">
 
-                                <span>None</span>
+                                <span>Insert</span>
 
                                 <span class="arrow">
                                     ▼
@@ -1199,17 +1211,22 @@ body {
 
                                 <div class="drop-option selected"
                                      onclick="selectOption(this)">
-                                    None
+                                    Insert
                                 </div>
 
                                 <div class="drop-option"
                                      onclick="selectOption(this)">
-                                    F1
+                                    Home
                                 </div>
 
                                 <div class="drop-option"
                                      onclick="selectOption(this)">
-                                    F2
+                                    End
+                                </div>
+
+                                <div class="drop-option"
+                                     onclick="selectOption(this)">
+                                    Delete
                                 </div>
 
                             </div>
@@ -1425,11 +1442,6 @@ function showPage(pageId, button) {
    CHECKBOXES
 ========================== */
 
-/*
-   QUALQUER checkbox DA INTERFACE
-   PODE SER CLICADO PARA LIGAR/DESLIGAR.
-*/
-
 document
     .querySelectorAll(".checkbox")
     .forEach(checkbox => {
@@ -1556,6 +1568,131 @@ fovSlider.addEventListener(
 /* Valor inicial */
 
 updateFov();
+
+
+/* ==========================
+   MENU INSERT / ESC
+========================== */
+
+const app =
+    document.getElementById("app");
+
+let menuToggleKey = "Insert";
+
+
+/*
+   Mostra ou esconde o menu.
+*/
+
+function toggleMenu() {
+
+    app.classList.toggle("menu-hidden");
+
+}
+
+
+/*
+   ESC fecha o menu.
+*/
+
+document.addEventListener("keydown", function(event) {
+
+    /*
+       Não interfere quando o utilizador
+       está a mexer num input.
+    */
+
+    if (
+        event.target.tagName === "INPUT" ||
+        event.target.tagName === "TEXTAREA"
+    ) {
+        return;
+    }
+
+
+    /*
+       Tecla configurada para o menu.
+    */
+
+    if (event.key === menuToggleKey) {
+
+        event.preventDefault();
+
+        toggleMenu();
+
+    }
+
+
+    /*
+       ESC fecha sempre.
+    */
+
+    if (event.key === "Escape") {
+
+        app.classList.add("menu-hidden");
+
+    }
+
+});
+
+
+/* ==========================
+   KEYBIND DO MENU
+========================== */
+
+/*
+   Quando escolheres outra tecla
+   no dropdown, ela passa a ser
+   a tecla usada para abrir/fechar.
+*/
+
+const menuDropdown =
+    document.querySelector(
+        "#keybinds .dropdown"
+    );
+
+
+if (menuDropdown) {
+
+    menuDropdown.dataset.bind = "menu";
+
+}
+
+
+/*
+   Guardamos a função original
+   para adicionar a alteração do
+   keybind sem estragar o dropdown.
+*/
+
+const originalSelectOption =
+    selectOption;
+
+
+/*
+   Nova função para selecionar opção.
+*/
+
+selectOption = function(option) {
+
+    originalSelectOption(option);
+
+
+    const dropdown =
+        option.closest(".dropdown");
+
+
+    if (
+        dropdown &&
+        dropdown.dataset.bind === "menu"
+    ) {
+
+        menuToggleKey =
+            option.textContent.trim();
+
+    }
+
+};
 
 </script>
 
