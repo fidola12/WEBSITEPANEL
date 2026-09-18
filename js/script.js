@@ -1,62 +1,222 @@
+```javascript
+/* =========================
+   PAGE NAVIGATION
+========================= */
+
 function showPage(pageId, button) {
 
-    document.querySelectorAll(".page").forEach(page => {
-        page.classList.remove("active");
+    // Esconde todas as páginas
+    const pages = document.querySelectorAll(".page");
+
+    pages.forEach(page => {
+        page.classList.remove("active-page");
     });
 
-    document.getElementById(pageId).classList.add("active");
 
-    document.querySelectorAll(".nav button").forEach(btn => {
-        btn.classList.remove("active");
+    // Remove active de todos os botões
+    const navItems = document.querySelectorAll(".nav-item");
+
+    navItems.forEach(item => {
+        item.classList.remove("active");
     });
 
-    button.classList.add("active");
+
+    // Mostra a página selecionada
+    const selectedPage = document.getElementById(pageId);
+
+    if (selectedPage) {
+        selectedPage.classList.add("active-page");
+    }
+
+
+    // Ativa o botão selecionado
+    if (button) {
+        button.classList.add("active");
+    }
+
+
+    // Atualiza título
+    const title = document.getElementById("page-title");
+    const description = document.getElementById("page-description");
+
+
+    const pageInfo = {
+
+        functions: {
+            title: "Functions",
+            description: "Configure your functions"
+        },
+
+        aimbot: {
+            title: "Aimbot",
+            description: "Aimbot configuration"
+        },
+
+        visuals: {
+            title: "Visuals",
+            description: "Visual configuration"
+        },
+
+        keybinds: {
+            title: "Keybinds",
+            description: "Configure your keyboard shortcuts"
+        },
+
+        settings: {
+            title: "Settings",
+            description: "Application settings"
+        },
+
+        information: {
+            title: "Information",
+            description: "Account and application information"
+        }
+
+    };
+
+
+    if (pageInfo[pageId]) {
+
+        title.textContent = pageInfo[pageId].title;
+        description.textContent = pageInfo[pageId].description;
+
+    }
+
 }
 
 
-/* CHECKBOXES */
+/* =========================
+   CHECKBOX
+========================= */
 
-document.querySelectorAll(".checkbox").forEach(checkbox => {
+function toggleCheckbox(element) {
 
-    checkbox.addEventListener("click", function() {
-        this.classList.toggle("active");
+    element.classList.toggle("active");
+
+    if (element.classList.contains("active")) {
+
+        element.textContent = "×";
+
+    } else {
+
+        element.textContent = "";
+
+    }
+
+}
+
+
+/* =========================
+   DROPDOWN
+========================= */
+
+function toggleDropdown(element) {
+
+    // Fecha outros dropdowns
+    document.querySelectorAll(".select-box").forEach(select => {
+
+        if (select !== element) {
+            select.classList.remove("open");
+        }
+
+    });
+
+
+    // Abre/fecha o atual
+    element.classList.toggle("open");
+
+}
+
+
+/* =========================
+   SELECT OPTION
+========================= */
+
+function selectOption(option) {
+
+    const selectBox = option.closest(".select-box");
+
+    const selectedText = selectBox.querySelector("span");
+
+    selectedText.textContent = option.textContent;
+
+    selectBox.classList.remove("open");
+
+}
+
+
+/* =========================
+   FECHAR DROPDOWN
+   CLICANDO FORA
+========================= */
+
+document.addEventListener("click", function(event) {
+
+    const selectBoxes = document.querySelectorAll(".select-box");
+
+    selectBoxes.forEach(select => {
+
+        if (!select.contains(event.target)) {
+
+            select.classList.remove("open");
+
+        }
+
     });
 
 });
 
 
-/* DROPDOWNS */
+/* =========================
+   SLIDER FOV
+========================= */
 
-function toggleDropdown(button) {
+const fovSlider = document.getElementById("fov-slider");
+const fovValue = document.getElementById("fov-value");
 
-    const dropdown = button.parentElement;
 
-    document.querySelectorAll(".dropdown").forEach(item => {
+if (fovSlider && fovValue) {
 
-        if (item !== dropdown) {
-            item.classList.remove("open");
-        }
+    fovSlider.addEventListener("input", function() {
+
+        fovValue.textContent = this.value;
 
     });
 
-    dropdown.classList.toggle("open");
 }
 
 
-function selectOption(option) {
+/* =========================
+   KEYBINDS
+========================= */
 
-    const dropdown = option.closest(".dropdown");
+document.querySelectorAll(".keybind button").forEach(button => {
 
-    const button =
-        dropdown.querySelector(".drop-button span:first-child");
+    button.addEventListener("click", function() {
 
-    button.textContent = option.textContent.trim();
+        const originalText = this.textContent;
 
-    dropdown.querySelectorAll(".drop-option").forEach(item => {
-        item.classList.remove("selected");
+        this.textContent = "...";
+
+        this.style.borderColor = "#ff1010";
+        this.style.color = "#ffffff";
+
+        const handleKey = (event) => {
+
+            event.preventDefault();
+
+            button.textContent = event.key.toUpperCase();
+
+            button.style.borderColor = "";
+            button.style.color = "";
+
+            document.removeEventListener("keydown", handleKey);
+
+        };
+
+        document.addEventListener("keydown", handleKey);
+
     });
 
-    option.classList.add("selected");
-
-    dropdown.classList.remove("open");
-}
+});
+```
