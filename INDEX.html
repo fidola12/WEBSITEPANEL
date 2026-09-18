@@ -1,0 +1,449 @@
+```html
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internal Configuration</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        min-height: 100vh;
+        background: #0b0b0b;
+        color: #d8d8d8;
+        font-family: "Segoe UI", Arial, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .interface {
+        position: relative;
+        width: min(706px, 94vw);
+        aspect-ratio: 706 / 432;
+        padding: 16px;
+        display: grid;
+        grid-template-columns: 1.02fr 0.98fr;
+        gap: 14px;
+        overflow: hidden;
+        background: #0b0b0b;
+    }
+
+    .panel {
+        position: relative;
+        background: #171717;
+        border: 1px solid #202020;
+        border-radius: 5px;
+        box-shadow: 0 5px 20px rgba(0,0,0,.22);
+        overflow: hidden;
+    }
+
+    .panel-title {
+        height: 45px;
+        display: flex;
+        align-items: center;
+        padding: 0 17px;
+        color: #ededed;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: .2px;
+        border-bottom: 1px solid #202020;
+    }
+
+    /* LEFT */
+
+    .left-panel {
+        height: 100%;
+    }
+
+    .left-content {
+        padding: 13px 16px;
+    }
+
+    .setting {
+        min-height: 43px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        border-bottom: 1px solid rgba(255,255,255,.025);
+    }
+
+    .setting:last-child {
+        border-bottom: 0;
+    }
+
+    .label {
+        color: #c5c5c5;
+        font-size: 12px;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    .select-box {
+        width: 128px;
+        height: 27px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 9px;
+        background: #0d0d0d;
+        border: 1px solid #242424;
+        border-radius: 3px;
+        color: #d4d4d4;
+        font-size: 11px;
+    }
+
+    .indicator {
+        width: 5px;
+        height: 5px;
+        background: #ff1010;
+        border-radius: 50%;
+        box-shadow: 0 0 5px rgba(255,16,16,.6);
+    }
+
+    /* CHECKBOX */
+
+    .checkbox {
+        width: 17px;
+        height: 17px;
+        border-radius: 2px;
+        background: #0d0d0d;
+        border: 1px solid #282828;
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .checkbox.active {
+        background: #ff1010;
+        border-color: #ff1010;
+        box-shadow: 0 0 8px rgba(255,16,16,.25);
+    }
+
+    .checkbox.active::after {
+        content: "";
+        position: absolute;
+        left: 4px;
+        top: 1px;
+        width: 5px;
+        height: 9px;
+        border: solid #fff;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+
+    /* RIGHT COLUMN */
+
+    .right-column {
+        display: grid;
+        grid-template-rows: 1fr .78fr;
+        gap: 14px;
+        min-width: 0;
+    }
+
+    .function-content {
+        padding: 9px 16px;
+    }
+
+    .function-row {
+        min-height: 39px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* KEYBIND */
+
+    .keybind-content {
+        padding: 13px 16px;
+    }
+
+    .keybind-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .keybind-name {
+        color: #e2e2e2;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .small-select {
+        width: 72px;
+        height: 25px;
+        background: #0d0d0d;
+        border: 1px solid #242424;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #aaa;
+        font-size: 10px;
+    }
+
+    .increased-row {
+        margin-top: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .increased {
+        color: #4d5159;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+    .number {
+        color: #bdbdbd;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    /* SLIDER */
+
+    .slider-area {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: 22px 1fr 22px;
+        align-items: center;
+        gap: 7px;
+    }
+
+    .slider-button {
+        width: 22px;
+        height: 20px;
+        background: #0d0d0d;
+        border: 1px solid #242424;
+        border-radius: 3px;
+        color: #8d8d8d;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+    }
+
+    .slider {
+        height: 4px;
+        background: #2b2b2b;
+        border-radius: 5px;
+        position: relative;
+    }
+
+    .slider-fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 67%;
+        height: 100%;
+        background: #ff1010;
+        border-radius: 5px;
+        box-shadow: 0 0 7px rgba(255,16,16,.25);
+    }
+
+    .slider-knob {
+        position: absolute;
+        top: 50%;
+        left: 67%;
+        width: 11px;
+        height: 11px;
+        transform: translate(-50%, -50%);
+        background: #ff1010;
+        border: 2px solid #171717;
+        border-radius: 50%;
+        box-shadow: 0 0 7px rgba(255,16,16,.45);
+    }
+
+    /* DECORATIVE DIAGONAL LINES */
+
+    .diagonal-lines {
+        pointer-events: none;
+        position: absolute;
+        left: -40px;
+        top: -55px;
+        width: 300px;
+        height: 220px;
+        opacity: .18;
+        transform: rotate(-2deg);
+    }
+
+    .diagonal-lines span {
+        position: absolute;
+        display: block;
+        width: 1px;
+        height: 310px;
+        background: #fff;
+        transform: rotate(38deg);
+    }
+
+    .diagonal-lines span:nth-child(1) { left: 42px; }
+    .diagonal-lines span:nth-child(2) { left: 68px; opacity: .7; }
+    .diagonal-lines span:nth-child(3) { left: 94px; opacity: .45; }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 600px) {
+        .interface {
+            width: 96vw;
+            height: auto;
+            aspect-ratio: auto;
+            grid-template-columns: 1fr;
+        }
+
+        .left-panel {
+            min-height: 330px;
+        }
+
+        .right-column {
+            min-height: 370px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="interface">
+
+    <!-- DECORATIVE LINES -->
+    <div class="diagonal-lines">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- LEFT PANEL -->
+    <section class="panel left-panel">
+
+        <div class="panel-title">
+            Aimbot Functions – Internal
+        </div>
+
+        <div class="left-content">
+
+            <div class="setting">
+                <span class="label">Aimbot Type</span>
+                <div class="select-box">
+                    <span>None</span>
+                    <span class="indicator"></span>
+                </div>
+            </div>
+
+            <div class="setting">
+                <span class="label">Full Enemy</span>
+                <div class="checkbox"></div>
+            </div>
+
+            <div class="setting">
+                <span class="label">Aimbot Locked</span>
+                <div class="checkbox active"></div>
+            </div>
+
+            <div class="setting">
+                <span class="label">Aimbot Target</span>
+                <div class="select-box">
+                    <span>Crosshair</span>
+                    <span class="indicator"></span>
+                </div>
+            </div>
+
+            <div class="setting">
+                <span class="label">Aimbot Bone</span>
+                <div class="select-box">
+                    <span>Chest</span>
+                    <span class="indicator"></span>
+                </div>
+            </div>
+
+            <div class="setting">
+                <span class="label">Show Fov</span>
+                <div class="checkbox"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- RIGHT COLUMN -->
+    <div class="right-column">
+
+        <!-- FUNCTIONS -->
+        <section class="panel">
+
+            <div class="panel-title">
+                Functions – Internal
+            </div>
+
+            <div class="function-content">
+
+                <div class="function-row">
+                    <span class="label">No Spread</span>
+                    <div class="checkbox active"></div>
+                </div>
+
+                <div class="function-row">
+                    <span class="label">No Reload</span>
+                    <div class="checkbox"></div>
+                </div>
+
+                <div class="function-row">
+                    <span class="label">Aim Lock</span>
+                    <div class="checkbox"></div>
+                </div>
+
+                <div class="function-row">
+                    <span class="label">Quick Switch</span>
+                    <div class="checkbox"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- KEYBIND -->
+        <section class="panel">
+
+            <div class="panel-title">
+                Keybind – Internal
+            </div>
+
+            <div class="keybind-content">
+
+                <div class="keybind-top">
+                    <span class="keybind-name">Camera Supreme</span>
+                    <div class="small-select">None</div>
+                </div>
+
+                <div class="increased-row">
+                    <span class="increased">Increased</span>
+                    <span class="number">3,000</span>
+                </div>
+
+                <div class="slider-area">
+
+                    <div class="slider-button">−</div>
+
+                    <div class="slider">
+                        <div class="slider-fill"></div>
+                        <div class="slider-knob"></div>
+                    </div>
+
+                    <div class="slider-button">+</div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+```
