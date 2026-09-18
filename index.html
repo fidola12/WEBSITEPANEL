@@ -24,6 +24,7 @@ body {
     align-items: center;
     justify-content: center;
 }
+    
 
 /* APP */
 
@@ -665,6 +666,57 @@ body {
 
 
 <body>
+    
+    
+```html
+<audio id="siteAudio" preload="auto">
+    <source src="audio.wav" type="audio/wav">
+</audio>
+```
+
+E no teu `<script>`, no final, antes de `</script>`, coloca:
+
+```html
+<script>
+
+/* ==========================
+   AUDIO AO ENTRAR NO SITE
+========================== */
+
+const siteAudio = document.getElementById("siteAudio");
+
+window.addEventListener("load", function() {
+
+    siteAudio.volume = 1.0;
+
+    siteAudio.play().catch(function() {
+
+        /*
+           Alguns navegadores bloqueiam
+           áudio automático até existir
+           uma interação do utilizador.
+        */
+
+        document.addEventListener(
+            "click",
+            function playAudioOnce() {
+
+                siteAudio.play().catch(() => {});
+
+                document.removeEventListener(
+                    "click",
+                    playAudioOnce
+                );
+
+            },
+            { once: true }
+        );
+
+    });
+
+});
+
+</script>
 
 <div class="app" id="app">
 
